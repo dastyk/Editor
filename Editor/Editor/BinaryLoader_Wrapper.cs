@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 namespace Editor
 {
-    class BinaryLoader_Wrapper
+    public class BinaryLoader_Wrapper
     {
+        UIntPtr loader;
         [DllImport("ResourceHandler.dll")]
         static extern UIntPtr CreateLoader(uint type);
         [DllImport("ResourceHandler.dll")]
@@ -20,5 +21,13 @@ namespace Editor
         static extern Int32 GetNumberOfTypes(UIntPtr loader);
         [DllImport("ResourceHandler.dll")]
         static extern Int64 GetTotalSizeOfAllFiles(UIntPtr loader);
+        BinaryLoader_Wrapper(uint type)
+        {
+            loader = CreateLoader(type);
+        }
+        public Int32 InitLoader(String filePath, int mode)
+        {
+            return InitLoader(loader, filePath, mode);
+        }
     }
 }
