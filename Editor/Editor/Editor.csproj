@@ -13,20 +13,21 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>$(SolutionDir)Build/$(Platform)/$(Configuration)/</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>$(SolutionDir)Build/$(Platform)/$(Configuration)/</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -52,10 +53,19 @@
     <Compile Include="EditorMainWindow.Designer.cs">
       <DependentUpon>EditorMainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="FileRegisterWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FileRegisterWindow.Designer.cs">
+      <DependentUpon>FileRegisterWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="EditorMainWindow.resx">
       <DependentUpon>EditorMainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileRegisterWindow.resx">
+      <DependentUpon>FileRegisterWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -80,4 +90,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(SolutionDir)../../ResourceHandler\ResourceHandler\Build\x64\Release\ResourceHandler.dll" "$(ProjectDir)"
+
+copy /Y "$(SolutionDir)../../ResourceHandler\ResourceHandler\Build\x64\Release\ResourceHandler.dll" "$(OutDir)"
+
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>

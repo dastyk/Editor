@@ -12,9 +12,17 @@ namespace Editor
 {
     public partial class EditorMainWindow : Form
     {
+        BinaryLoader_Wrapper binaryLoader;
+        FileRegisterWindow fileRegisterWindow;
         public EditorMainWindow()
         {
             InitializeComponent();
+
+            binaryLoader = new BinaryLoader_Wrapper();
+
+            fileRegisterWindow = new FileRegisterWindow();
+            fileRegisterWindow.MdiParent = this;
+            fileRegisterWindow.Show();
         }
     }
 }
