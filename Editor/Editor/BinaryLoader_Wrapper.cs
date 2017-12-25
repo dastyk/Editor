@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 namespace Editor
 {
+    public enum LoaderMode
+    {
+        EDIT,
+        READ
+    }
     public class BinaryLoader_Wrapper
     {
         UIntPtr loader;
@@ -17,8 +22,6 @@ namespace Editor
         static extern Int32 DestroyLoader(UIntPtr loader);
         [DllImport("ResourceHandler.dll")]
         static extern Int32 CreateS_C(UIntPtr loader, String guid, String type, [In, MarshalAs(UnmanagedType.LPArray)] byte[] rdata, UInt64 size);
-        [DllImport("ResourceHandler.dll")]
-        static extern Int32 Create_C(UIntPtr loader, UInt32 guid, UInt32 type, [In, MarshalAs(UnmanagedType.LPArray)] byte[] rdata, UInt64 size);
         [DllImport("ResourceHandler.dll")]
         static extern Int32 ReadS_C(UIntPtr loader, String guid, String type, [In, MarshalAs(UnmanagedType.LPArray)] byte[] rdata, UInt64 size);
         [DllImport("ResourceHandler.dll")]
@@ -51,17 +54,13 @@ namespace Editor
         {
             DestroyLoader(loader);
         }
-        public Int32 InitLoader(String filePath, int mode)
+        public Int32 InitLoader(String filePath, LoaderMode mode)
         {
-            return InitLoader_C(loader, filePath, mode);
+            return InitLoader_C(loader, filePath, (int)mode);
         }
         public Int32 Create(String guid, String type, byte[] data, UInt64 size)
         {
             return CreateS_C(loader, guid, type, data, size);
-        }
-        public Int32 Create(UInt32 guid, UInt32 type, byte[] data, UInt64 size)
-        {
-            return Create_C(loader, guid, type, data, size);
         }
         public Int32 Destroy(UInt32 guid, UInt32 type)
         {

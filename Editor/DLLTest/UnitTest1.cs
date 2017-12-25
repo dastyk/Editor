@@ -18,7 +18,7 @@ namespace DLLTest
             {
 
                 Editor.BinaryLoader_Wrapper bl = new Editor.BinaryLoader_Wrapper();
-                long result = bl.InitLoader("test.dat", 0);
+                long result = bl.InitLoader("test.dat", Editor.LoaderMode.EDIT);
                 Assert.IsTrue(result == 0, "Could not init Loader");
 
                 string file = "Test File";
@@ -59,16 +59,6 @@ namespace DLLTest
                 Assert.IsTrue(result == 0, "Could not destroy TestFile");
                 Assert.IsTrue(bl.GetNumberOfFiles() == 1, "Number of files was not 1");
                 Assert.IsTrue(bl.GetTotalSizeOfAllFiles() == 10, "Total size of all fiels was not 10 after deleting TestFile");
-
-      
-
-
-
-
-                result = bl.Create(123, 312, Encoding.ASCII.GetBytes(file2), 10);
-                Assert.IsTrue(result == 0, "Uint32 create did not work" + result.ToString());
-
-
             }
         }
     }
