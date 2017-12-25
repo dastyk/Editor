@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text;
 using System.IO;
-
+using System.Collections.Generic;
 namespace DLLTest
 {
     [TestClass]
@@ -59,6 +59,13 @@ namespace DLLTest
                 Assert.IsTrue(result == 0, "Could not destroy TestFile");
                 Assert.IsTrue(bl.GetNumberOfFiles() == 1, "Number of files was not 1");
                 Assert.IsTrue(bl.GetTotalSizeOfAllFiles() == 10, "Total size of all fiels was not 10 after deleting TestFile");
+
+                List<Editor.LoaderFile> files;
+                result = bl.GetFiles(out files);
+                Assert.IsTrue(result == 0, "Could not get all files");
+                //Assert.IsTrue(files.Count == 2, "Files count not 2");
+                
+
             }
         }
     }
