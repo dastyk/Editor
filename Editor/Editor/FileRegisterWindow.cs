@@ -59,8 +59,8 @@ namespace Editor
                 }
                 var typeNodes = rootNodes[addFileWindow.type].Nodes;
 
-                TreeNode fileNode = new TreeNode(addFileWindow.file);
-                fileNode.Name = addFileWindow.file;
+                TreeNode fileNode = new TreeNode(addFileWindow.name);
+                fileNode.Name = addFileWindow.name;
                 typeNodes.Add(fileNode);
             }
         }
