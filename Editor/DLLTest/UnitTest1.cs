@@ -55,15 +55,21 @@ namespace DLLTest
 
                 Assert.IsTrue(bl.GetTotalSizeOfAllFiles() == 19, "Total size of all files was not 19");
 
+
+                List<Editor.LoaderFile> files;
+                result = bl.GetFiles(out files);
+                Assert.IsTrue(result == 0, "Could not get all files");
+                Assert.IsTrue(files.Count == 2, "Files count not 2");
+                Assert.IsTrue(files[0].guid_str == "TestFile", "files was not TestFile");
+                Assert.IsTrue(files[1].guid_str == "TestFile2", "files was not TestFile2");
+
+
                 result = bl.Destroy("TestFile", "Test");
                 Assert.IsTrue(result == 0, "Could not destroy TestFile");
                 Assert.IsTrue(bl.GetNumberOfFiles() == 1, "Number of files was not 1");
                 Assert.IsTrue(bl.GetTotalSizeOfAllFiles() == 10, "Total size of all fiels was not 10 after deleting TestFile");
 
-                List<Editor.LoaderFile> files;
-                result = bl.GetFiles(out files);
-                Assert.IsTrue(result == 0, "Could not get all files");
-                //Assert.IsTrue(files.Count == 2, "Files count not 2");
+               
                 
 
             }

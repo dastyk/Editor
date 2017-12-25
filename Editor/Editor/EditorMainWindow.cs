@@ -20,7 +20,7 @@ namespace Editor
 
             binaryLoader = new BinaryLoader_Wrapper();
 
-            fileRegisterWindow = new FileRegisterWindow();
+            fileRegisterWindow = new FileRegisterWindow(binaryLoader);
             fileRegisterWindow.MdiParent = this;
             fileRegisterWindow.Show();
         }
