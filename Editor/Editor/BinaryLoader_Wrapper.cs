@@ -77,16 +77,23 @@ namespace Editor
 
         public BinaryLoader_Wrapper()
         {
+            loader = UIntPtr.Zero;
             loader = CreateLoader(0);
         }
-  
+        ~BinaryLoader_Wrapper()
+        {
+            if (loader != null)
+                DestroyLoader(loader);
+        }
         public Int32 InitLoader(String filePath, LoaderMode mode)
         {
             return InitLoader_C(loader, filePath, (int)mode);
         }
         public Int32 Shutdown()
         {
-            return DestroyLoader(loader);
+            var r = DestroyLoader(loader);
+            loader = UIntPtr.Zero;
+            return r;
         }
         public Int32 Create(String guid, String type, byte[] data, UInt64 size)
         {

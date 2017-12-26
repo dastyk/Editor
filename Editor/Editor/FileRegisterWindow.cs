@@ -7,15 +7,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using Editor.Properties;
 namespace Editor
 {
     public partial class FileRegisterWindow : Form
     {
+        struct File
+        {
+            public String originalPath { get; set; }
+        }
         BinaryLoader_Wrapper binaryLoader;
         public FileRegisterWindow(BinaryLoader_Wrapper binaryLoader_)
         {
             InitializeComponent();
+
+            if (Settings.Default.EditorMainSize != null)
+                this.Size = Settings.Default.FileRegSize;
+
             binaryLoader = binaryLoader_;
             List<LoaderFile> files;
             var r = binaryLoader.GetFiles(out files);
@@ -26,18 +34,38 @@ namespace Editor
               
                 for(int i = 0; i < files.Count; i++)
                 {
+                    var typeNodes = root.Nodes.Find(files[i].type_str, false);
+                    TreeNode typeNode;
+                    if(typeNodes.Length ==0)
+                    {
+                        typeNode = new TreeNode(files[i].type_str);
+                        typeNode.Name = files[i].type_str;
+                        root.Nodes.Add(typeNode);
+                    }
+
+                    typeNode = root.Nodes[files[i].type_str];
+
                     TreeNode node = new TreeNode(files[i].guid_str);
                     node.Name = files[i].guid_str;
-                    root.Nodes.Add(node);
+                    node.Tag = new File();
+                    File f = (File)node.Tag;
+                    f.originalPath = "";
+                    typeNode.Nodes.Add(node);
                 }
                 fileTree.Nodes.Add(root);
             }
+            fileTree.Nodes["Root"].Expand();
         }
 
         private void fileTree_MouseDown(object sender, MouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Right)
             {
+                var node = fileTree.GetNodeAt(new Point(e.X, e.Y));
+                if(node != null)
+                {
+                    fileTree.SelectedNode = node;
+                }
                 TreeViewMenu.Show(new Point(Cursor.Position.X, Cursor.Position.Y));
             }
         }
@@ -46,17 +74,18 @@ namespace Editor
         {
             AddFileWindow addFileWindow = new AddFileWindow();
             var r = addFileWindow.ShowDialog();
-            if(r == DialogResult.OK)
+            if (r == DialogResult.OK)
             {
                 var root = fileTree.Nodes[0];
                 var rootNodes = root.Nodes;
                 var type = rootNodes.Find(addFileWindow.type, false);
-                if(type.Length == 0)
+                if (type.Length == 0)
                 {
                     TreeNode node = new TreeNode(addFileWindow.type);
                     node.Name = addFileWindow.type;
                     rootNodes.Add(node);
                 }
+                var typeNode = rootNodes[addFileWindow.type];
                 var typeNodes = rootNodes[addFileWindow.type].Nodes;
 
                 var file = typeNodes.Find(addFileWindow.name, false);
@@ -73,8 +102,51 @@ namespace Editor
                 }
                 TreeNode fileNode = new TreeNode(addFileWindow.name);
                 fileNode.Name = addFileWindow.name;
+               
+                var cresult =  binaryLoader.CreateFromFile(addFileWindow.file, addFileWindow.name, addFileWindow.type);
+                if(cresult != 0)
+                {
+                    MessageBox.Show("Could not add file", "Error: " + cresult.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
                 typeNodes.Add(fileNode);
-                binaryLoader.CreateFromFile(addFileWindow.file, addFileWindow.name, addFileWindow.type);
+                typeNode.Expand();
+                fileTree.SelectedNode = fileNode;
+            }
+        }
+
+        private void FileRegisterWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Copy window size to app settings
+            if (this.WindowState == FormWindowState.Normal)
+            {
+                Settings.Default.FileRegSize = this.Size;
+            }
+            else
+            {
+                Settings.Default.FileRegSize = this.RestoreBounds.Size;
+            }
+
+            // Save settings
+            Settings.Default.Save();
+        }
+
+        private void toolStripItem_Remove_Click(object sender, EventArgs e)
+        {
+            var sel = fileTree.SelectedNode;
+            if(sel.Tag != null)
+            {
+                var r = MessageBox.Show("Are you sure you want to delete " + sel.Text + "?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if(r == DialogResult.Yes)
+                {
+                    var result = binaryLoader.Destroy(sel.Name, sel.Parent.Name);
+                    if(result != 0)
+                    {
+                        MessageBox.Show("Could not delete file", "Error: " + result.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    sel.Parent.Nodes.Remove(sel);
+                }
             }
         }
     }
