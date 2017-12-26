@@ -63,23 +63,30 @@ namespace DLLTest
                 Assert.IsTrue(files[0].guid_str == "TestFile", "files was not TestFile");
                 Assert.IsTrue(files[1].guid_str == "TestFile2", "files was not TestFile2");
 
-                using (BinaryWriter writer = new BinaryWriter(File.Open("test.txt", FileMode.Create)))
-                {
-                    writer.Write(1.250F);
-                    writer.Write(@"c:\Temp");
-                    writer.Write(10);
-                    writer.Write(true);
-                }
-
-               
 
                 result = bl.Destroy("TestFile", "Test");
                 Assert.IsTrue(result == 0, "Could not destroy TestFile");
                 Assert.IsTrue(bl.GetNumberOfFiles() == 1, "Number of files was not 1");
                 Assert.IsTrue(bl.GetTotalSizeOfAllFiles() == 10, "Total size of all fiels was not 10 after deleting TestFile");
 
-               
-                
+
+
+                using (BinaryWriter writer = new BinaryWriter(File.Open("test.txt", FileMode.Create)))
+                {
+                    writer.Write(1337);
+                }
+
+                result = bl.CreateFromFile("test.txt", "TestFileTxt", "Test");
+                Assert.IsTrue(result == 0, "Could not create from file");
+                size = 0;
+                result = bl.GetSizeOfFile("TestFileTxt", "Test", ref size);
+                Assert.IsTrue(size == sizeof(int), "Not size of int");
+                data = new byte[size];
+
+                result = bl.Read("TestFileTxt", "Test", data, size);
+                int leet = 0;
+                leet = BitConverter.ToInt32(data, 0);
+                Assert.IsTrue(leet == 1337, "leet not 1337");
 
             }
         }
