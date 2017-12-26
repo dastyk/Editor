@@ -79,13 +79,14 @@ namespace Editor
         {
             loader = CreateLoader(0);
         }
-        ~BinaryLoader_Wrapper()
-        {
-            DestroyLoader(loader);
-        }
+  
         public Int32 InitLoader(String filePath, LoaderMode mode)
         {
             return InitLoader_C(loader, filePath, (int)mode);
+        }
+        public Int32 Shutdown()
+        {
+            return DestroyLoader(loader);
         }
         public Int32 Create(String guid, String type, byte[] data, UInt64 size)
         {

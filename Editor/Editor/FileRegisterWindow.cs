@@ -59,9 +59,22 @@ namespace Editor
                 }
                 var typeNodes = rootNodes[addFileWindow.type].Nodes;
 
+                var file = typeNodes.Find(addFileWindow.name, false);
+                if(file.Length > 0)
+                {
+                    var result = MessageBox.Show("A file with this name already exists. Overwrite?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if(result == DialogResult.No)
+                    {
+                        return;
+                    }
+
+                    binaryLoader.Destroy(addFileWindow.name, addFileWindow.type);
+                    typeNodes.Remove(file[0]);
+                }
                 TreeNode fileNode = new TreeNode(addFileWindow.name);
                 fileNode.Name = addFileWindow.name;
                 typeNodes.Add(fileNode);
+                binaryLoader.CreateFromFile(addFileWindow.file, addFileWindow.name, addFileWindow.type);
             }
         }
     }
