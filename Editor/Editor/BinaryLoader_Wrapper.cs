@@ -31,6 +31,8 @@ namespace Editor
         [DllImport("ResourceHandler.dll")]
         static extern Int32 CreateS_C(UIntPtr loader, String guid, String type, [In, MarshalAs(UnmanagedType.LPArray)] byte[] rdata, UInt64 size);
         [DllImport("ResourceHandler.dll")]
+        static extern Int32 CreateFromFile_C(UIntPtr loader, String path, String guid, String type);
+        [DllImport("ResourceHandler.dll")]
         static extern Int32 ReadS_C(UIntPtr loader, String guid, String type, [In, MarshalAs(UnmanagedType.LPArray)] byte[] rdata, UInt64 size);
         [DllImport("ResourceHandler.dll")]
         static extern Int32 Read_C(UIntPtr loader, UInt32 guid, UInt32 type, [In, MarshalAs(UnmanagedType.LPArray)] byte[] rdata, UInt64 size);
@@ -88,6 +90,10 @@ namespace Editor
         public Int32 Create(String guid, String type, byte[] data, UInt64 size)
         {
             return CreateS_C(loader, guid, type, data, size);
+        }
+        public Int32 CreateFromFile(String path, String guid, String type)
+        {
+            return CreateFromFile_C(loader, path, guid, type);
         }
         public Int32 Destroy(UInt32 guid, UInt32 type)
         {

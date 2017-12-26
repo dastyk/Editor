@@ -63,6 +63,15 @@ namespace DLLTest
                 Assert.IsTrue(files[0].guid_str == "TestFile", "files was not TestFile");
                 Assert.IsTrue(files[1].guid_str == "TestFile2", "files was not TestFile2");
 
+                using (BinaryWriter writer = new BinaryWriter(File.Open("test.txt", FileMode.Create)))
+                {
+                    writer.Write(1.250F);
+                    writer.Write(@"c:\Temp");
+                    writer.Write(10);
+                    writer.Write(true);
+                }
+
+               
 
                 result = bl.Destroy("TestFile", "Test");
                 Assert.IsTrue(result == 0, "Could not destroy TestFile");
