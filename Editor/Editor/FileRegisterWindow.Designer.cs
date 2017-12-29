@@ -62,25 +62,25 @@
             // TreeViewMenuAddFile
             // 
             this.TreeViewMenuAddFile.Name = "TreeViewMenuAddFile";
-            this.TreeViewMenuAddFile.Size = new System.Drawing.Size(152, 22);
+            this.TreeViewMenuAddFile.Size = new System.Drawing.Size(122, 22);
             this.TreeViewMenuAddFile.Text = "Add File";
             this.TreeViewMenuAddFile.Click += new System.EventHandler(this.TreeViewMenuAddFile_Click);
             // 
             // addFilesToolStripMenuItem
             // 
             this.addFilesToolStripMenuItem.Name = "addFilesToolStripMenuItem";
-            this.addFilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addFilesToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.addFilesToolStripMenuItem.Text = "Add Files";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(119, 6);
             // 
             // toolStripItem_Remove
             // 
             this.toolStripItem_Remove.Name = "toolStripItem_Remove";
-            this.toolStripItem_Remove.Size = new System.Drawing.Size(152, 22);
+            this.toolStripItem_Remove.Size = new System.Drawing.Size(122, 22);
             this.toolStripItem_Remove.Text = "Remove";
             this.toolStripItem_Remove.Click += new System.EventHandler(this.toolStripItem_Remove_Click);
             // 
@@ -94,8 +94,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Location = global::Editor.Properties.Settings.Default.FileRegPos;
             this.Name = "FileRegisterWindow";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "FileRegister";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FileRegisterWindow_FormClosing);
             this.TreeViewMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 

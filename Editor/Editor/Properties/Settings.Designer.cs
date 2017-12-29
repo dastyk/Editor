@@ -70,5 +70,89 @@ namespace Editor.Properties {
                 this["FileRegSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
+        public global::System.Drawing.Point SceneSelectorPos {
+            get {
+                return ((global::System.Drawing.Point)(this["SceneSelectorPos"]));
+            }
+            set {
+                this["SceneSelectorPos"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100, 300")]
+        public global::System.Drawing.Size SceneSelectorSize {
+            get {
+                return ((global::System.Drawing.Size)(this["SceneSelectorSize"]));
+            }
+            set {
+                this["SceneSelectorSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FileRegVisible {
+            get {
+                return ((bool)(this["FileRegVisible"]));
+            }
+            set {
+                this["FileRegVisible"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SceneSelVisible {
+            get {
+                return ((bool)(this["SceneSelVisible"]));
+            }
+            set {
+                this["SceneSelVisible"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("200, 0")]
+        public global::System.Drawing.Point SceneViewPos {
+            get {
+                return ((global::System.Drawing.Point)(this["SceneViewPos"]));
+            }
+            set {
+                this["SceneViewPos"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100, 300")]
+        public global::System.Drawing.Size SceneViewSize {
+            get {
+                return ((global::System.Drawing.Size)(this["SceneViewSize"]));
+            }
+            set {
+                this["SceneViewSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SceneViewVisible {
+            get {
+                return ((bool)(this["SceneViewVisible"]));
+            }
+            set {
+                this["SceneViewVisible"] = value;
+            }
+        }
     }
 }

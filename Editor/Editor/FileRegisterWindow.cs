@@ -115,21 +115,6 @@ namespace Editor
             }
         }
 
-        private void FileRegisterWindow_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            // Copy window size to app settings
-            if (this.WindowState == FormWindowState.Normal)
-            {
-                Settings.Default.FileRegSize = this.Size;
-            }
-            else
-            {
-                Settings.Default.FileRegSize = this.RestoreBounds.Size;
-            }
-
-            // Save settings
-            Settings.Default.Save();
-        }
 
         private void toolStripItem_Remove_Click(object sender, EventArgs e)
         {
