@@ -74,24 +74,24 @@ namespace Editor.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
-        public global::System.Drawing.Point SceneSelectorPos {
+        public global::System.Drawing.Point EntityViewPos {
             get {
-                return ((global::System.Drawing.Point)(this["SceneSelectorPos"]));
+                return ((global::System.Drawing.Point)(this["EntityViewPos"]));
             }
             set {
-                this["SceneSelectorPos"] = value;
+                this["EntityViewPos"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("100, 300")]
-        public global::System.Drawing.Size SceneSelectorSize {
+        public global::System.Drawing.Size EntityViewSize {
             get {
-                return ((global::System.Drawing.Size)(this["SceneSelectorSize"]));
+                return ((global::System.Drawing.Size)(this["EntityViewSize"]));
             }
             set {
-                this["SceneSelectorSize"] = value;
+                this["EntityViewSize"] = value;
             }
         }
         
@@ -110,12 +110,12 @@ namespace Editor.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool SceneSelVisible {
+        public bool EntityViewVisible {
             get {
-                return ((bool)(this["SceneSelVisible"]));
+                return ((bool)(this["EntityViewVisible"]));
             }
             set {
-                this["SceneSelVisible"] = value;
+                this["EntityViewVisible"] = value;
             }
         }
         
@@ -152,6 +152,30 @@ namespace Editor.Properties {
             }
             set {
                 this["SceneViewVisible"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int SceneViewSplitDistance {
+            get {
+                return ((int)(this["SceneViewSplitDistance"]));
+            }
+            set {
+                this["SceneViewSplitDistance"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int EntityFlowContWidth {
+            get {
+                return ((int)(this["EntityFlowContWidth"]));
+            }
+            set {
+                this["EntityFlowContWidth"] = value;
             }
         }
     }

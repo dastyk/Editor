@@ -46,46 +46,78 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddFileWindow.cs">
+    <Compile Include="Forms\AddSceneWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddFileWindow.Designer.cs">
+    <Compile Include="Forms\AddSceneWindow.Designer.cs">
+      <DependentUpon>AddSceneWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddFileWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddFileWindow.Designer.cs">
       <DependentUpon>AddFileWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="BinaryLoader_Wrapper.cs" />
-    <Compile Include="EditorMainWindow.cs">
+    <Compile Include="Forms\EditorMainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditorMainWindow.Designer.cs">
+    <Compile Include="Forms\EditorMainWindow.Designer.cs">
       <DependentUpon>EditorMainWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="FileRegisterWindow.cs">
+    <Compile Include="Forms\EntityFlowContainerObjects\AddComponentEntry.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\EntityFlowContainerObjects\AddComponentEntry.Designer.cs">
+      <DependentUpon>AddComponentEntry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EntityFlowContainerObjects\TransformComponent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\EntityFlowContainerObjects\TransformComponent.Designer.cs">
+      <DependentUpon>TransformComponent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Manager\Collection.cs" />
+    <Compile Include="Manager\EntityManager.cs" />
+    <Compile Include="Forms\FileRegisterWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FileRegisterWindow.Designer.cs">
+    <Compile Include="Forms\FileRegisterWindow.Designer.cs">
       <DependentUpon>FileRegisterWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Manager\ManagerBase.cs" />
+    <Compile Include="MemoryBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SceneSelector.cs">
+    <Compile Include="Manager\SceneManager.cs" />
+    <Compile Include="Forms\SceneViewWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SceneSelector.Designer.cs">
-      <DependentUpon>SceneSelector.cs</DependentUpon>
+    <Compile Include="Forms\SceneViewWindow.Designer.cs">
+      <DependentUpon>SceneViewWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="SceneView.cs">
+    <Compile Include="Forms\EntityViewWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SceneView.Designer.cs">
-      <DependentUpon>SceneView.cs</DependentUpon>
+    <Compile Include="Forms\EntityViewWindow.Designer.cs">
+      <DependentUpon>EntityViewWindow.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AddFileWindow.resx">
+    <EmbeddedResource Include="Forms\AddSceneWindow.resx">
+      <DependentUpon>AddSceneWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddFileWindow.resx">
       <DependentUpon>AddFileWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditorMainWindow.resx">
+    <EmbeddedResource Include="Forms\EditorMainWindow.resx">
       <DependentUpon>EditorMainWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FileRegisterWindow.resx">
+    <EmbeddedResource Include="Forms\EntityFlowContainerObjects\AddComponentEntry.resx">
+      <DependentUpon>AddComponentEntry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EntityFlowContainerObjects\TransformComponent.resx">
+      <DependentUpon>TransformComponent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FileRegisterWindow.resx">
       <DependentUpon>FileRegisterWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -97,11 +129,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="SceneSelector.resx">
-      <DependentUpon>SceneSelector.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\SceneViewWindow.resx">
+      <DependentUpon>SceneViewWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SceneView.resx">
-      <DependentUpon>SceneView.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\EntityViewWindow.resx">
+      <DependentUpon>EntityViewWindow.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

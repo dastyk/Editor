@@ -15,8 +15,9 @@ namespace Editor
     {
         BinaryLoader_Wrapper binaryLoader;
         FileRegisterWindow fileRegisterWindow;
-        SceneSelector sceneSelector;
-        SceneView sceneView;
+        SceneViewWindow sceneViewWindow;
+        EntityViewWindow entityViewWindow;
+        Manager.Collection managers = new Manager.Collection();
         void fileRegisterWindowClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.MdiFormClosing)
@@ -25,19 +26,19 @@ namespace Editor
             e.Cancel = true;
         }
    
-        void sceneSelectorClosing(object sender, FormClosingEventArgs e)
-        {
-            if (e.CloseReason == CloseReason.MdiFormClosing)
-                return;
-            toolStripItem_SceneS.Checked = false;
-            e.Cancel = true;
-        }
-     
-        void sceneViewClosing(object sender, FormClosingEventArgs e)
+        void sceneViewWindowClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.MdiFormClosing)
                 return;
             toolStripItem_SceneView.Checked = false;
+            e.Cancel = true;
+        }
+     
+        void EntityViewWindowClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.MdiFormClosing)
+                return;
+            toolStripItem_EntityView.Checked = false;
             e.Cancel = true;
         }
 
@@ -55,26 +56,27 @@ namespace Editor
                 MessageBox.Show("Could not init the binary file system", "Error: " + r.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
-
+            managers.entityManager = new EntityManager();
+            managers.sceneManager = new SceneManager(managers.entityManager);
 
             fileRegisterWindow = new FileRegisterWindow(binaryLoader);
             fileRegisterWindow.MdiParent = this;
             fileRegisterWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(fileRegisterWindowClosing);
 
 
-            sceneSelector = new SceneSelector(binaryLoader);
-            sceneSelector.MdiParent = this;
-            sceneSelector.FormClosing += new System.Windows.Forms.FormClosingEventHandler(sceneSelectorClosing);
+            sceneViewWindow = new SceneViewWindow(binaryLoader, managers);
+            sceneViewWindow.MdiParent = this;
+            sceneViewWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(sceneViewWindowClosing);
 
 
-            sceneView = new SceneView(binaryLoader);
-            sceneView.MdiParent = this;
-            sceneView.FormClosing += new System.Windows.Forms.FormClosingEventHandler(sceneViewClosing);
+            entityViewWindow = new EntityViewWindow(binaryLoader);
+            entityViewWindow.MdiParent = this;
+            entityViewWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(EntityViewWindowClosing);
 
 
             toolStripItem_FileReg.Checked = Settings.Default.FileRegVisible;
-            toolStripItem_SceneS.Checked = Settings.Default.SceneSelVisible;
             toolStripItem_SceneView.Checked = Settings.Default.SceneViewVisible;
+            toolStripItem_EntityView.Checked = Settings.Default.EntityViewVisible;
           
          
         }
@@ -99,7 +101,8 @@ namespace Editor
             }
 
             Settings.Default.FileRegSize = fileRegisterWindow.Size;
-            Settings.Default.SceneSelectorSize = sceneSelector.Size;
+            Settings.Default.SceneViewSize = sceneViewWindow.Size;
+            Settings.Default.EntityViewSize = entityViewWindow.Size;
 
             Settings.Default.Save();
             e.Cancel = false;
@@ -111,16 +114,16 @@ namespace Editor
 
         }
 
-        private void toolStripItem_SceneS_CheckedChanged(object sender, EventArgs e)
+        private void toolStripItem_SceneView_CheckedChanged_1(object sender, EventArgs e)
         {
-            Settings.Default.SceneSelVisible = sceneSelector.Visible = toolStripItem_SceneS.Checked;
-            sceneSelector.Location = Settings.Default.SceneSelectorPos;
+            Settings.Default.SceneViewVisible = sceneViewWindow.Visible = toolStripItem_SceneView.Checked;
+            sceneViewWindow.Location = Settings.Default.SceneViewPos;
         }
 
-        private void toolStripItem_SceneView_CheckedChanged(object sender, EventArgs e)
+        private void toolStripItem_EntityView_CheckedChanged(object sender, EventArgs e)
         {
-            Settings.Default.FileRegVisible = sceneView.Visible = toolStripItem_SceneView.Checked;
-            sceneView.Location = Settings.Default.SceneViewPos;
+            Settings.Default.EntityViewVisible = entityViewWindow.Visible = toolStripItem_EntityView.Checked;
+            entityViewWindow.Location = Settings.Default.EntityViewPos;
         }
     }
 }

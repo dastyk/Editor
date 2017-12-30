@@ -73,6 +73,8 @@ namespace Editor
         private void TreeViewMenuAddFile_Click(object sender, EventArgs e)
         {
             AddFileWindow addFileWindow = new AddFileWindow();
+            addFileWindow.Location = Cursor.Position;
+            addFileWindow.StartPosition = FormStartPosition.Manual;
             var r = addFileWindow.ShowDialog();
             if (r == DialogResult.OK)
             {
