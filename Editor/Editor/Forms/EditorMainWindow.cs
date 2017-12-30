@@ -58,20 +58,20 @@ namespace Editor
             }
             managers.entityManager = new EntityManager();
             managers.sceneManager = new SceneManager(managers.entityManager);
+            managers.transformManager = new Manager.TransformManager(managers.entityManager);
 
             fileRegisterWindow = new FileRegisterWindow(binaryLoader);
             fileRegisterWindow.MdiParent = this;
             fileRegisterWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(fileRegisterWindowClosing);
 
+            entityViewWindow = new EntityViewWindow(binaryLoader, managers);
+            entityViewWindow.MdiParent = this;
+            entityViewWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(EntityViewWindowClosing);
 
-            sceneViewWindow = new SceneViewWindow(binaryLoader, managers);
+            sceneViewWindow = new SceneViewWindow(binaryLoader, managers, entityViewWindow);
             sceneViewWindow.MdiParent = this;
             sceneViewWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(sceneViewWindowClosing);
 
-
-            entityViewWindow = new EntityViewWindow(binaryLoader);
-            entityViewWindow.MdiParent = this;
-            entityViewWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(EntityViewWindowClosing);
 
 
             toolStripItem_FileReg.Checked = Settings.Default.FileRegVisible;

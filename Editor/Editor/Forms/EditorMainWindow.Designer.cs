@@ -109,6 +109,7 @@
             this.Location = global::Editor.Properties.Settings.Default.EditorMainPos;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "EditorMainWindow";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EditorMainWindow_FormClosing);
             this.menuStrip1.ResumeLayout(false);

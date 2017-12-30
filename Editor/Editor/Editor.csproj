@@ -46,11 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\AddSceneWindow.cs">
+    <Compile Include="Forms\AddEntityWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\AddSceneWindow.Designer.cs">
-      <DependentUpon>AddSceneWindow.cs</DependentUpon>
+    <Compile Include="Forms\AddEntityWindow.Designer.cs">
+      <DependentUpon>AddEntityWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\AddFileWindow.cs">
       <SubType>Form</SubType>
@@ -71,6 +71,7 @@
     <Compile Include="Forms\EntityFlowContainerObjects\AddComponentEntry.Designer.cs">
       <DependentUpon>AddComponentEntry.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\EntityFlowContainerObjects\ComponentBase.cs" />
     <Compile Include="Forms\EntityFlowContainerObjects\TransformComponent.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -86,6 +87,7 @@
       <DependentUpon>FileRegisterWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Manager\ManagerBase.cs" />
+    <Compile Include="Manager\TransformManager.cs" />
     <Compile Include="MemoryBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -102,8 +104,8 @@
     <Compile Include="Forms\EntityViewWindow.Designer.cs">
       <DependentUpon>EntityViewWindow.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Forms\AddSceneWindow.resx">
-      <DependentUpon>AddSceneWindow.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\AddEntityWindow.resx">
+      <DependentUpon>AddEntityWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddFileWindow.resx">
       <DependentUpon>AddFileWindow.cs</DependentUpon>

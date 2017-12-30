@@ -10,22 +10,28 @@ using System.Windows.Forms;
 using Editor.Properties;
 namespace Editor
 {
+    using Entity = UInt32;
     public partial class EntityViewWindow : Form
     {
-
-        public EntityViewWindow(BinaryLoader_Wrapper bl)
+        Entity entity;
+        Manager.Collection managers;
+        public EntityViewWindow(BinaryLoader_Wrapper bl, Manager.Collection managers)
         {
             InitializeComponent();
-
-            Forms.EntityFlowContainerObjects.AddComponentEntry addComponentEntry = new Forms.EntityFlowContainerObjects.AddComponentEntry(entityComponents);
-            entityComponents.Controls.Add(addComponentEntry);
-
+            this.managers = managers;
+            this.Size = Settings.Default.EntityViewSize;
             //Forms.EntityFlowContainerObjects.AddComponentEntry addComponentEntry1 = new Forms.EntityFlowContainerObjects.AddComponentEntry();
             //addComponentEntry1.Width = Settings.Default.EntityFlowContWidth;
             //entityComponents.Controls.Add(addComponentEntry1);
 
         }
-
+        public void SetEntity(Entity ent)
+        {
+            entity = ent;
+            entityComponents.Controls.Clear();
+            var addComponentEntry = new Forms.EntityFlowContainerObjects.AddComponentEntry(entityComponents,ent, managers);
+          
+        }
         private void entityComponents_ClientSizeChanged(object sender, EventArgs e)
         {
             Settings.Default.EntityFlowContWidth = entityComponents.ClientSize.Width - 6;

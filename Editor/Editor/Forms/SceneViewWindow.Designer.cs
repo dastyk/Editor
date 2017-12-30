@@ -47,6 +47,8 @@
             // scenesTree
             // 
             this.scenesTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scenesTree.HideSelection = false;
+            this.scenesTree.HotTracking = true;
             this.scenesTree.Location = new System.Drawing.Point(0, 0);
             this.scenesTree.Name = "scenesTree";
             this.scenesTree.Size = new System.Drawing.Size(96, 257);
@@ -90,10 +92,13 @@
             // sceneTree
             // 
             this.sceneTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sceneTree.HideSelection = false;
+            this.sceneTree.HotTracking = true;
             this.sceneTree.Location = new System.Drawing.Point(0, 0);
             this.sceneTree.Name = "sceneTree";
             this.sceneTree.Size = new System.Drawing.Size(176, 257);
             this.sceneTree.TabIndex = 0;
+            this.sceneTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.sceneTree_AfterSelect);
             this.sceneTree.MouseDown += new System.Windows.Forms.MouseEventHandler(this.sceneTree_MouseDown_1);
             // 
             // cms_NewEnt

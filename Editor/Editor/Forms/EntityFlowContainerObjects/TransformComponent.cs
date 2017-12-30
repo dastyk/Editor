@@ -10,13 +10,34 @@ using System.Windows.Forms;
 
 namespace Editor.Forms.EntityFlowContainerObjects
 {
-    public partial class TransformComponent : UserControl
+    using Entity = UInt32;
+    public partial class TransformComponent : UserControl, ComponentBase
     {
-        public TransformComponent()
+        Entity entity;
+        Manager.TransformManager manager;
+        event DeleteEventHandler OnDelete;
+        public TransformComponent(Entity entity, Manager.TransformManager tm)
         {
             InitializeComponent();
+            this.entity = entity;
+            manager = tm;
         }
+        public ManagerBase GetManager()
+        {
+            return manager;         
+        }
+        public void Added()
+        {
+            manager.Create(entity);
+        }
+        public void ReadInfo()
+        {
 
+        }
+        public void RegisterDelete(DeleteEventHandler deleteEventHandler)
+        {
+            OnDelete += deleteEventHandler;
+        }
         public override string ToString()
         {
             return "Transform";
@@ -24,7 +45,8 @@ namespace Editor.Forms.EntityFlowContainerObjects
 
         private void bth_Remove_Click(object sender, EventArgs e)
         {
-
+            if (OnDelete == null) return;
+            OnDelete(this);
         }
     }
 }

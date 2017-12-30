@@ -1,6 +1,6 @@
 ﻿namespace Editor
 {
-    partial class AddSceneWindow
+    partial class AddEntitywindow
     {
         /// <summary>
         /// Required designer variable.
@@ -71,8 +71,9 @@
             this.tb_Name.TabIndex = 9;
             this.tb_Name.TextChanged += new System.EventHandler(this.tb_Name_TextChanged);
             // 
-            // AddSceneWindow
+            // AddEntitywindow
             // 
+            this.AcceptButton = this.btn_OK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
@@ -83,8 +84,8 @@
             this.Controls.Add(this.btn_CANCEL);
             this.Controls.Add(this.btn_OK);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Name = "AddSceneWindow";
-            this.Text = "Add Scene";
+            this.Name = "AddEntitywindow";
+            this.Text = "Add";
             this.ResumeLayout(false);
             this.PerformLayout();
 

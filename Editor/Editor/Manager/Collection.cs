@@ -10,5 +10,6 @@ namespace Editor.Manager
     {
         public EntityManager entityManager;
         public SceneManager sceneManager;
+        public TransformManager transformManager;
     }
 }

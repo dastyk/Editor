@@ -11,12 +11,13 @@ using System.IO;
 
 namespace Editor
 {
-    public partial class AddSceneWindow : Form
+    public partial class AddEntitywindow : Form
     {
         public string name { get; set; }
-        public AddSceneWindow()
+        public AddEntitywindow()
         {
             InitializeComponent();
+            this.ActiveControl = tb_Name;
         }
 
         private void btn_OK_Click(object sender, EventArgs e)
