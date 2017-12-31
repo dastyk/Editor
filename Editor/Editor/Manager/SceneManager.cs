@@ -23,7 +23,7 @@ namespace Editor
         [DllImport("ECS.dll")]
         static extern UIntPtr SceneManager_CreateSceneManager_C(InitInfo ii);
         [DllImport("ECS.dll")]
-        static extern void SceneManager_Create_C(UIntPtr obj, Entity ent);
+        static extern void SceneManager_Create_C(UIntPtr obj, Entity ent, String name);
         [DllImport("ECS.dll")]
         static extern void SceneManager_AddEntityToScene_C(UIntPtr obj, Entity scene, Entity entity);
 
@@ -33,9 +33,9 @@ namespace Editor
             InitInfo ii = new InitInfo { entityManager = em.GetObj(), pNext = UIntPtr.Zero };
             obj = SceneManager_CreateSceneManager_C(ii);
         }
-        public void Create(Entity entity)
+        public void Create(Entity entity, String name)
         {
-            SceneManager_Create_C(obj, entity);
+            SceneManager_Create_C(obj, entity, name);
         }
         public void AddEntityToScene(Entity scene, Entity entity)
         {

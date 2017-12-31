@@ -79,7 +79,7 @@ namespace Editor
                 node.Name = addSceneWindow.name;
                 var ent =  managers.entityManager.Create();
                 node.Tag = ent;
-                managers.sceneManager.Create(ent);
+                managers.sceneManager.Create(ent, addSceneWindow.name);
 
                
                 TreeNodeCollection treeNodeCollection;
@@ -137,7 +137,7 @@ namespace Editor
                         return;
                     }
 
-                    managers.sceneManager.Create(parentEnt);
+                    managers.sceneManager.Create(parentEnt, parentNode.Name);
                 }
 
                 var ent = managers.entityManager.Create();
