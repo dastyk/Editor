@@ -89,7 +89,7 @@ namespace Editor
                 {
                     treeNodeCollection = parentNode.Nodes;
                     var parentEnt = (UInt32)parentNode.Tag;
-                    managers.sceneManager.AddEntityToScene(parentEnt, ent);
+                    managers.sceneManager.AddEntityToScene(parentEnt, ent, addSceneWindow.name);
                 }
                 treeNodeCollection.Add(node);
                 scenesTree.SelectedNode = node;

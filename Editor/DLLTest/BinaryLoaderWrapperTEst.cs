@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace DLLTest
 {
     [TestClass]
-    public class UnitTest1
+    public class BinaryLoaderWrapperTest
     {
        
 
