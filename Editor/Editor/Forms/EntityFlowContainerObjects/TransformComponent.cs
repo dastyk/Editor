@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DLLWrappers.Managers;
 
 namespace Editor.Forms.EntityFlowContainerObjects
 {
@@ -14,9 +15,9 @@ namespace Editor.Forms.EntityFlowContainerObjects
     public partial class TransformComponent : UserControl, ComponentBase
     {
         Entity entity;
-        Manager.TransformManager manager;
+        TransformManager manager;
         event DeleteEventHandler OnDelete;
-        public TransformComponent(Entity entity, Manager.TransformManager tm)
+        public TransformComponent(Entity entity, TransformManager tm)
         {
             InitializeComponent();
             this.entity = entity;
@@ -28,7 +29,7 @@ namespace Editor.Forms.EntityFlowContainerObjects
         }
         public void Added()
         {
-            manager.Create(entity);
+             manager.Create(entity);
         }
         public void ReadInfo()
         {

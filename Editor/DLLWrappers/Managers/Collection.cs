@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Editor.Manager
+namespace DLLWrappers.Managers
 {
     public class Collection
     {

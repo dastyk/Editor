@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
 
-namespace Editor
+namespace DLLWrappers.Managers
 {
     using Entity = UInt32;
     public class SceneManager : ManagerBase
@@ -17,6 +17,7 @@ namespace Editor
         struct InitInfo
         {
             public UIntPtr entityManager { get; set; }
+            public UIntPtr transformManager { get; set; }
             public UIntPtr pNext { get; set; }
         }
 
@@ -27,10 +28,10 @@ namespace Editor
         [DllImport("ECS.dll")]
         static extern void SceneManager_AddNamedEntityToScene_C(UIntPtr obj, Entity scene, Entity entity, String name);
 
-        public SceneManager(EntityManager em)
+        public SceneManager(EntityManager em, TransformManager tm)
         {
             entityManager = em;
-            InitInfo ii = new InitInfo { entityManager = em.GetObj(), pNext = UIntPtr.Zero };
+            InitInfo ii = new InitInfo { entityManager = em.GetObj(), transformManager = tm.GetObj(), pNext = UIntPtr.Zero };
             obj = SceneManager_CreateSceneManager_C(ii);
         }
         public void Create(Entity entity, String name)

@@ -9,8 +9,8 @@ namespace DLLTest
         [TestMethod]
         public void TransformManagerImport_Basic()
         {
-            var em = new Editor.EntityManager();
-            var tm = new Editor.Manager.TransformManager(em);
+            var em = new DLLWrappers.Managers.EntityManager();
+            var tm = new DLLWrappers.Managers.TransformManager(em);
 
             var e = em.Create();
             tm.Create(e);

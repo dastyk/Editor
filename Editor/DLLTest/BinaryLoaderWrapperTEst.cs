@@ -17,8 +17,8 @@ namespace DLLTest
             File.Delete("test.dat");
             {
                 {
-                    Editor.BinaryLoader_Wrapper bl = new Editor.BinaryLoader_Wrapper();
-                    long result = bl.InitLoader("test.dat", Editor.LoaderMode.EDIT);
+                    DLLWrappers.BinaryLoader_Wrapper bl = new DLLWrappers.BinaryLoader_Wrapper();
+                    long result = bl.InitLoader("test.dat", DLLWrappers.LoaderMode.EDIT);
                     Assert.IsTrue(result == 0, "Could not init Loader");
 
                     string file = "Test File";
@@ -53,7 +53,7 @@ namespace DLLTest
 
                  
 
-                    List<Editor.LoaderFile> files;
+                    List<DLLWrappers.LoaderFile> files;
                     result = bl.GetFiles(out files);
                     Assert.IsTrue(result == 0, "Could not get all files");
                     Assert.IsTrue(files.Count == 2, "Files count not 2");
@@ -79,8 +79,8 @@ namespace DLLTest
                     bl.Shutdown();
                 }
                 {
-                    Editor.BinaryLoader_Wrapper bl = new Editor.BinaryLoader_Wrapper();
-                    var result = bl.InitLoader("test.dat", Editor.LoaderMode.EDIT);
+                    DLLWrappers.BinaryLoader_Wrapper bl = new DLLWrappers.BinaryLoader_Wrapper();
+                    var result = bl.InitLoader("test.dat", DLLWrappers.LoaderMode.EDIT);
                     Assert.IsTrue(result == 0, "Could not reinit");
 
                     Assert.IsTrue(bl.GetNumberOfFiles() == 2, "No files after reinit");

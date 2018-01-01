@@ -60,9 +60,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Editor\Editor.csproj">
-      <Project>{eb507f34-841f-463a-b09c-5f94b516bd25}</Project>
-      <Name>Editor</Name>
+    <ProjectReference Include="..\DLLWrappers\DLLWrappers.csproj">
+      <Project>{b2caa4ca-3133-41f7-b026-a8c52c98545f}</Project>
+      <Name>DLLWrappers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

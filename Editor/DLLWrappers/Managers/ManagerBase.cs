@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
-namespace Editor
+namespace DLLWrappers.Managers
 {
     using Entity = UInt32;
     public class ManagerBase : MemoryBase

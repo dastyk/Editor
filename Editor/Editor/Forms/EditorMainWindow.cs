@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Editor.Properties;
+using DLLWrappers;
+using DLLWrappers.Managers;
+
 namespace Editor
 {
   
@@ -17,7 +20,7 @@ namespace Editor
         FileRegisterWindow fileRegisterWindow;
         SceneViewWindow sceneViewWindow;
         EntityViewWindow entityViewWindow;
-        Manager.Collection managers = new Manager.Collection();
+        Collection managers = new Collection();
         void fileRegisterWindowClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.MdiFormClosing)
@@ -57,9 +60,9 @@ namespace Editor
 
             }
             managers.entityManager = new EntityManager();
-            managers.sceneManager = new SceneManager(managers.entityManager);
-            managers.transformManager = new Manager.TransformManager(managers.entityManager);
-
+            managers.transformManager = new TransformManager(managers.entityManager);
+            managers.sceneManager = new SceneManager(managers.entityManager, managers.transformManager);
+            
             fileRegisterWindow = new FileRegisterWindow(binaryLoader);
             fileRegisterWindow.MdiParent = this;
             fileRegisterWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(fileRegisterWindowClosing);

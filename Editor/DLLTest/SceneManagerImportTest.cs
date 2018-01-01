@@ -9,8 +9,9 @@ namespace DLLTest
         [TestMethod]
         public void SceneManagerImport_Basic()
         {
-            var em = new Editor.EntityManager();
-            var sm = new Editor.SceneManager(em);
+            var em = new DLLWrappers.Managers.EntityManager();
+            var tm = new DLLWrappers.Managers.TransformManager(em);
+            var sm = new DLLWrappers.Managers.SceneManager(em, tm);
 
             var e = em.Create();
             sm.Create(e, "Name");

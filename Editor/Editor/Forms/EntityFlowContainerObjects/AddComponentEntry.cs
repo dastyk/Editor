@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using DLLWrappers.Managers;
 namespace Editor.Forms.EntityFlowContainerObjects
 {
     using Entity = UInt32;
@@ -16,8 +16,8 @@ namespace Editor.Forms.EntityFlowContainerObjects
     {
         Entity entity;
         FlowLayoutPanel flp_components;
-        Manager.Collection managers;
-        public AddComponentEntry(FlowLayoutPanel cp, Entity entity, Manager.Collection managers)
+        Collection managers;
+        public AddComponentEntry(FlowLayoutPanel cp, Entity entity, Collection managers)
         {
             InitializeComponent();
             this.flp_components = cp;

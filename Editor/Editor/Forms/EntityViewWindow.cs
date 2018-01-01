@@ -8,14 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Editor.Properties;
+using DLLWrappers;
+using DLLWrappers.Managers;
 namespace Editor
 {
     using Entity = UInt32;
     public partial class EntityViewWindow : Form
     {
         Entity entity;
-        Manager.Collection managers;
-        public EntityViewWindow(BinaryLoader_Wrapper bl, Manager.Collection managers)
+        Collection managers;
+        public EntityViewWindow(BinaryLoader_Wrapper bl, Collection managers)
         {
             InitializeComponent();
             this.managers = managers;

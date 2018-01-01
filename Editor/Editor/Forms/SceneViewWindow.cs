@@ -8,12 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Editor.Properties;
+using DLLWrappers;
+using DLLWrappers.Managers;
 namespace Editor
 {
     public partial class SceneViewWindow : Form
     {
         BinaryLoader_Wrapper bl;
-        Manager.Collection managers;
+        Collection managers;
         EntityViewWindow entityViewWindow;
 
         void FixNodeHighlight(TreeView treeView)
@@ -40,7 +42,7 @@ namespace Editor
             };
         }
 
-        public SceneViewWindow(BinaryLoader_Wrapper bl, Manager.Collection managers, EntityViewWindow evw)
+        public SceneViewWindow(BinaryLoader_Wrapper bl, Collection managers, EntityViewWindow evw)
         {
             InitializeComponent();
             this.bl = bl;

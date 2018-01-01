@@ -14,7 +14,7 @@ namespace DLLTest
         [TestMethod]
         public void EntityManagerImport_Basic()
         {
-            Editor.EntityManager em = new Editor.EntityManager();
+            DLLWrappers.Managers.EntityManager em = new DLLWrappers.Managers.EntityManager();
 
             var e = em.Create();
             em.Destroy(e);
