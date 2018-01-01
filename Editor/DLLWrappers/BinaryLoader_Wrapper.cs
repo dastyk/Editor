@@ -45,6 +45,8 @@ namespace DLLWrappers
         [DllImport("ResourceHandler.dll")]
         static extern UInt32 GetNumberOfTypes_C(UIntPtr loader);
         [DllImport("ResourceHandler.dll")]
+        static extern UInt32 GetNumberOfFilesOfType_C(UIntPtr loader, String type);
+        [DllImport("ResourceHandler.dll")]
         static extern Int64 GetTotalSizeOfAllFiles_C(UIntPtr loader);
         [DllImport("ResourceHandler.dll")]
         static extern Int32 Exist_C(UIntPtr loader, UInt32 guid, UInt32 type);
@@ -74,6 +76,8 @@ namespace DLLWrappers
         };
         [DllImport("ResourceHandler.dll")]
         static extern Int32 GetFiles_C(UIntPtr loader, IntPtr files, UInt32 numfiles);
+        [DllImport("ResourceHandler.dll")]
+        static extern Int32 GetFilesOfType_C(UIntPtr loader, String type, IntPtr files, UInt32 numfiles);
 
         public BinaryLoader_Wrapper()
         {
@@ -84,6 +88,10 @@ namespace DLLWrappers
         {
             if (loader != null)
                 DestroyLoader(loader);
+        }
+        public UIntPtr GetLoader()
+        {
+            return loader;
         }
         public Int32 InitLoader(String filePath, LoaderMode mode)
         {
@@ -157,7 +165,36 @@ namespace DLLWrappers
             FILE_C[] files = new FILE_C[numFiles];
             var result = GetFiles_C(loader, Marshal.UnsafeAddrOfPinnedArrayElement(files, 0), numFiles);
             file_list = new List<LoaderFile>();
-            for(UInt32 i = 0; i < numFiles; i++)
+            if (result != 0)
+                return result;
+            for (UInt32 i = 0; i < numFiles; i++)
+            {
+                file_list.Add(new LoaderFile
+                {
+                    guid = files[i].guid,
+                    guid_str = Marshal.PtrToStringAnsi(files[i].guid_str),
+                    type = files[i].type,
+                    type_str = Marshal.PtrToStringAnsi(files[i].type_str)
+                });
+            }
+            return result;
+        }
+
+        public UInt32 GetNumberOfFilesOfType(String type)
+        {
+            return GetNumberOfFilesOfType_C(loader, type);
+        }
+
+        public Int32 GetFilesOfType(String type, out List<LoaderFile> file_list)
+        {
+            var numFiles = GetNumberOfFilesOfType(type);
+            FILE_C[] files = new FILE_C[numFiles];
+            var result = GetFilesOfType_C(loader, type, Marshal.UnsafeAddrOfPinnedArrayElement(files, 0), numFiles);
+            file_list = new List<LoaderFile>();
+            if (result != 0)
+                return result;
+         
+            for (UInt32 i = 0; i < numFiles; i++)
             {
                 file_list.Add(new LoaderFile
                 {

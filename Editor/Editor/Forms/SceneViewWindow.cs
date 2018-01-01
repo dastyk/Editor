@@ -41,7 +41,42 @@ namespace Editor
                     treeView.SelectedNode = node;
             };
         }
+        private void CreateSceneNode(EntityInfo file, String type, TreeNode node)
+        {
+            node.Text = file.name;
+            node.Name = file.name;
+            node.Tag = file.entity;
+            var entInScene = managers.sceneManager.GetEntitiesInScene(file.entity);
+            foreach (EntityInfo ei in entInScene)
+            {
+                if (managers.sceneManager.IsRegistered(ei.entity))
+                {
+                    var child = new TreeNode();
+                    CreateSceneNode(ei, type, child);
+                    node.Nodes.Add(child);
+                }
+            }
 
+        }
+        private void CreateSceneNode(LoaderFile file, TreeNode node)
+        {
+            var ent = managers.entityManager.Create();
+            managers.sceneManager.Create(ent, file.guid, file.type);
+            node.Text = file.guid_str;
+            node.Name = file.guid_str;
+            node.Tag = ent;
+            var entInScene = managers.sceneManager.GetEntitiesInScene(ent);
+            foreach (EntityInfo ei in entInScene)
+            {
+                if (managers.sceneManager.IsRegistered(ei.entity))
+                {
+                    var child = new TreeNode();
+                    CreateSceneNode(ei, file.type_str, child);
+                    node.Nodes.Add(child);
+                }
+            }
+
+        }
         public SceneViewWindow(BinaryLoader_Wrapper bl, Collection managers, EntityViewWindow evw)
         {
             InitializeComponent();
@@ -55,6 +90,42 @@ namespace Editor
             FixNodeHighlight(scenesTree);
             FixNodeHighlight(sceneTree);
 
+            List<LoaderFile> scenes;
+            var result = bl.GetFilesOfType("Scene", out scenes);
+            //if(result != 0)
+            //{
+            //    MessageBox.Show("Error when fetching scenes from file system", "Error: " + result.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
+            //else
+            if(result == 0)
+            {
+                List<LoaderFile> cleared = new List<LoaderFile>(scenes);
+                foreach (LoaderFile file in scenes)
+                {
+                    var inscene = managers.sceneManager.GetChildResourcesOfSceneResource(file.guid);
+                    foreach (UInt32 guid in inscene)
+                    {
+                        foreach (LoaderFile file2 in cleared)
+                        {
+                            if (file2.guid == guid)
+                            {
+                                cleared.Remove(file2);
+                                break;
+                            }
+                                
+                        }
+
+
+                    }
+                }
+               
+                foreach (LoaderFile file in cleared)
+                {
+                    var node = new TreeNode();
+                    CreateSceneNode(file, node);
+                    scenesTree.Nodes.Add(node);
+                }
+            }
         }
 
         private void sceneTree_MouseDown(object sender, MouseEventArgs e)
@@ -172,6 +243,9 @@ namespace Editor
             entityViewWindow.SetEntity(ent);
         }
 
-
+        public TreeNodeCollection GetRootNodes()
+        {
+            return scenesTree.Nodes;
+        }
     }
 }

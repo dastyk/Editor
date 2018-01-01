@@ -20,7 +20,9 @@ namespace Editor
         FileRegisterWindow fileRegisterWindow;
         SceneViewWindow sceneViewWindow;
         EntityViewWindow entityViewWindow;
+        ResourceHandler resourceHandler;
         Collection managers = new Collection();
+        Components.FileToolBar fileToolBar;
         void fileRegisterWindowClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.MdiFormClosing)
@@ -47,6 +49,8 @@ namespace Editor
 
         public EditorMainWindow()
         {
+
+            fileToolBar = new Components.FileToolBar(this.Controls, managers);
             InitializeComponent();
 
             if (Settings.Default.EditorMainSize != null)
@@ -59,6 +63,8 @@ namespace Editor
                 MessageBox.Show("Could not init the binary file system", "Error: " + r.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
+            resourceHandler = new ResourceHandler(binaryLoader);
+
             managers.entityManager = new EntityManager();
             managers.transformManager = new TransformManager(managers.entityManager);
             managers.sceneManager = new SceneManager(managers.entityManager, managers.transformManager);
@@ -75,7 +81,8 @@ namespace Editor
             sceneViewWindow.MdiParent = this;
             sceneViewWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(sceneViewWindowClosing);
 
-
+            fileToolBar.SetLoader(binaryLoader);
+            fileToolBar.SetSceneView(sceneViewWindow);
 
             toolStripItem_FileReg.Checked = Settings.Default.FileRegVisible;
             toolStripItem_SceneView.Checked = Settings.Default.SceneViewVisible;
