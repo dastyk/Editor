@@ -16,12 +16,7 @@ namespace Editor
   
     public partial class EditorMainWindow : Form
     {
-        BinaryLoader_Wrapper binaryLoader;
-        FileRegisterWindow fileRegisterWindow;
-        SceneViewWindow sceneViewWindow;
-        EntityViewWindow entityViewWindow;
-        ResourceHandler resourceHandler;
-        Collection managers = new Collection();
+        Utilities.EditorWrapper wrapper;
         void fileRegisterWindowClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.MdiFormClosing)
@@ -51,34 +46,21 @@ namespace Editor
             
             InitializeComponent();
 
+            wrapper = new Utilities.EditorWrapper();
+
             if (Settings.Default.EditorMainSize != null)
                 this.Size = Settings.Default.EditorMainSize;
 
-            binaryLoader = new BinaryLoader_Wrapper();
-            var r = binaryLoader.InitLoader("data.dat", LoaderMode.EDIT);
-            if (r != 0)
-            {
-                MessageBox.Show("Could not init the binary file system", "Error: " + r.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            wrapper.fileRegisterWindow.MdiParent = this;
+            wrapper.fileRegisterWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(fileRegisterWindowClosing);
 
-            }
-            resourceHandler = new ResourceHandler(binaryLoader);
+            wrapper.entityViewWindow.MdiParent = this;
+            wrapper.entityViewWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(EntityViewWindowClosing);
 
-            managers.entityManager = new EntityManager();
-            managers.transformManager = new TransformManager(managers.entityManager);
-            managers.sceneManager = new SceneManager(managers.entityManager, managers.transformManager);
-            
-            fileRegisterWindow = new FileRegisterWindow(binaryLoader);
-            fileRegisterWindow.MdiParent = this;
-            fileRegisterWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(fileRegisterWindowClosing);
+            wrapper.sceneViewWindow.MdiParent = this;
+            wrapper.sceneViewWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(sceneViewWindowClosing);
 
-            entityViewWindow = new EntityViewWindow(binaryLoader, managers);
-            entityViewWindow.MdiParent = this;
-            entityViewWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(EntityViewWindowClosing);
 
-            sceneViewWindow = new SceneViewWindow(binaryLoader, managers, entityViewWindow);
-            sceneViewWindow.MdiParent = this;
-            sceneViewWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(sceneViewWindowClosing);
-            
             toolStripItem_FileReg.Checked = Settings.Default.FileRegVisible;
             toolStripItem_SceneView.Checked = Settings.Default.SceneViewVisible;
             toolStripItem_EntityView.Checked = Settings.Default.EntityViewVisible;
@@ -87,7 +69,7 @@ namespace Editor
         }
         ~EditorMainWindow()
         {
-            binaryLoader.Shutdown();
+            wrapper.binaryLoader.Shutdown();
         }
 
     
@@ -105,58 +87,54 @@ namespace Editor
                 Settings.Default.EditorMainSize = this.RestoreBounds.Size;
             }
 
-            Settings.Default.FileRegSize = fileRegisterWindow.Size;
-            Settings.Default.SceneViewSize = sceneViewWindow.Size;
-            Settings.Default.EntityViewSize = entityViewWindow.Size;
+            Settings.Default.FileRegSize = wrapper.fileRegisterWindow.Size;
+            Settings.Default.SceneViewSize = wrapper.sceneViewWindow.Size;
+            Settings.Default.EntityViewSize = wrapper.entityViewWindow.Size;
 
             Settings.Default.Save();
             e.Cancel = false;
         }
         private void toolStripItem_FileReg_CheckedChanged(object sender, EventArgs e)
         {
-           Settings.Default.FileRegVisible = fileRegisterWindow.Visible = toolStripItem_FileReg.Checked;
-            fileRegisterWindow.Location = Settings.Default.FileRegPos;
+           Settings.Default.FileRegVisible = wrapper.fileRegisterWindow.Visible = toolStripItem_FileReg.Checked;
+            wrapper.fileRegisterWindow.Location = Settings.Default.FileRegPos;
 
         }
 
         private void toolStripItem_SceneView_CheckedChanged_1(object sender, EventArgs e)
         {
-            Settings.Default.SceneViewVisible = sceneViewWindow.Visible = toolStripItem_SceneView.Checked;
-            sceneViewWindow.Location = Settings.Default.SceneViewPos;
+            Settings.Default.SceneViewVisible = wrapper.sceneViewWindow.Visible = toolStripItem_SceneView.Checked;
+            wrapper.sceneViewWindow.Location = Settings.Default.SceneViewPos;
         }
 
         private void toolStripItem_EntityView_CheckedChanged(object sender, EventArgs e)
         {
-            Settings.Default.EntityViewVisible = entityViewWindow.Visible = toolStripItem_EntityView.Checked;
-            entityViewWindow.Location = Settings.Default.EntityViewPos;
+            Settings.Default.EntityViewVisible = wrapper.entityViewWindow.Visible = toolStripItem_EntityView.Checked;
+            wrapper.entityViewWindow.Location = Settings.Default.EntityViewPos;
         }
 
+        private void Save()
+        {
+
+        }
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var scenes = managers.sceneManager.GetRegisteredEntities();
-            foreach (UInt32 ent in scenes)
-            {
-
-                var r = managers.sceneManager.WriteComponent(binaryLoader, ent, managers.sceneManager.GetNameOfScene(ent), "Scene");
-                if (r != 0)
-                {
-                    MessageBox.Show("Could not write scene component", "Error: " + r.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
+            wrapper.Save();
+            statusLabelSaved.Visible = true;
+            SavedTimer.Start();
         }
 
         private void tsbtn_save_Click(object sender, EventArgs e)
         {
-            var scenes = managers.sceneManager.GetRegisteredEntities();
-            foreach (UInt32 ent in scenes)
-            {
+            wrapper.Save();
+            statusLabelSaved.Visible = true;
+            SavedTimer.Start();
+        }
 
-                var r = managers.sceneManager.WriteComponent(binaryLoader, ent, managers.sceneManager.GetNameOfScene(ent), "Scene");
-                if (r != 0)
-                {
-                    MessageBox.Show("Could not write scene component", "Error: " + r.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
+        private void SavedTimer_Tick(object sender, EventArgs e)
+        {
+            statusLabelSaved.Visible = false;
+            SavedTimer.Stop();
         }
     }
 }

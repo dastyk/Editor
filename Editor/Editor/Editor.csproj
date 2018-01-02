@@ -97,6 +97,7 @@
     <Compile Include="Forms\EntityViewWindow.Designer.cs">
       <DependentUpon>EntityViewWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\Tools.cs" />
     <EmbeddedResource Include="Forms\AddEntityWindow.resx">
       <DependentUpon>AddEntityWindow.cs</DependentUpon>
     </EmbeddedResource>

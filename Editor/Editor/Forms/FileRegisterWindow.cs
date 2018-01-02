@@ -26,18 +26,40 @@ namespace Editor
                 this.Size = Settings.Default.FileRegSize;
 
             binaryLoader = binaryLoader_;
+            ReadFiles();
+        }
+        public void RemoveFilesThatDoNotMatch(String[] names, String type)
+        {
+            List<LoaderFile> files;
+            var r = binaryLoader.GetFilesOfType(type, out files);
+            if (r != 0)
+            {
+                MessageBox.Show("Could not get files of type: " + type, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            foreach(LoaderFile f in files)
+            {
+                if (Array.Find(names, n => n == f.guid_str) == null)
+                {
+                    binaryLoader.Destroy(f.guid_str, type);
+                }
+            }
+            
+        }
+        private void ReadFiles()
+        {
             List<LoaderFile> files;
             var r = binaryLoader.GetFiles(out files);
-            if(r == 0)
+            if (r == 0)
             {
                 TreeNode root = new TreeNode("Root");
                 root.Name = "Root";
-              
-                for(int i = 0; i < files.Count; i++)
+
+                for (int i = 0; i < files.Count; i++)
                 {
                     var typeNodes = root.Nodes.Find(files[i].type_str, false);
                     TreeNode typeNode;
-                    if(typeNodes.Length ==0)
+                    if (typeNodes.Length == 0)
                     {
                         typeNode = new TreeNode(files[i].type_str);
                         typeNode.Name = files[i].type_str;
@@ -57,7 +79,11 @@ namespace Editor
             }
             fileTree.Nodes["Root"].Expand();
         }
-
+        public void Reset()
+        {
+            fileTree.Nodes.Clear();
+            ReadFiles();
+        }
         private void fileTree_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
