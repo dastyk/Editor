@@ -144,5 +144,19 @@ namespace Editor
                 }
             }
         }
+
+        private void tsbtn_save_Click(object sender, EventArgs e)
+        {
+            var scenes = managers.sceneManager.GetRegisteredEntities();
+            foreach (UInt32 ent in scenes)
+            {
+
+                var r = managers.sceneManager.WriteComponent(binaryLoader, ent, managers.sceneManager.GetNameOfScene(ent), "Scene");
+                if (r != 0)
+                {
+                    MessageBox.Show("Could not write scene component", "Error: " + r.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }
