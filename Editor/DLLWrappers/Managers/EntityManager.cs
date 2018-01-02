@@ -16,7 +16,12 @@ namespace EngineImporter.Managers
         static extern Entity EntityManager_Create_C(UIntPtr obj);
         [DllImport("ECS.dll")]
         static extern void EntityManager_Destroy_C(UIntPtr obj, Entity ent);
+        [DllImport("ECS.dll")]
+        static extern void EntityManager_DestroyNow_C(UIntPtr obj, Entity ent);
+        [DllImport("ECS.dll")]
+        static extern void EntityManager_RegisterManagerForDestroyNow_C(UIntPtr obj, UIntPtr mb);
 
+        
         public EntityManager()
         {
             obj = EntityManager_CreateEntityManager_C();
@@ -28,6 +33,14 @@ namespace EngineImporter.Managers
         public void Destroy(Entity entity)
         {
             EntityManager_Destroy_C(obj, entity);
+        }
+        public void DestroyNow(Entity entity)
+        {
+            EntityManager_DestroyNow_C(obj, entity);
+        }
+        public void RegisterForDestroyNow(ManagerBase manager)
+        {
+            EntityManager_RegisterManagerForDestroyNow_C(obj, manager.GetObj());
         }
     }
 }

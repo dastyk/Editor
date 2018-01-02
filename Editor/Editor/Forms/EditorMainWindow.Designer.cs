@@ -35,6 +35,8 @@
             this.toolStripItem_FileReg = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripItem_SceneView = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripItem_EntityView = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,6 +61,9 @@
             // 
             // toolStrip_File
             // 
+            this.toolStrip_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveToolStripMenuItem,
+            this.saveAsToolStripMenuItem});
             this.toolStrip_File.Name = "toolStrip_File";
             this.toolStrip_File.Size = new System.Drawing.Size(37, 20);
             this.toolStrip_File.Text = "File";
@@ -77,7 +82,7 @@
             // 
             this.toolStripItem_FileReg.CheckOnClick = true;
             this.toolStripItem_FileReg.Name = "toolStripItem_FileReg";
-            this.toolStripItem_FileReg.Size = new System.Drawing.Size(152, 22);
+            this.toolStripItem_FileReg.Size = new System.Drawing.Size(137, 22);
             this.toolStripItem_FileReg.Text = "File Register";
             this.toolStripItem_FileReg.CheckedChanged += new System.EventHandler(this.toolStripItem_FileReg_CheckedChanged);
             // 
@@ -85,7 +90,7 @@
             // 
             this.toolStripItem_SceneView.CheckOnClick = true;
             this.toolStripItem_SceneView.Name = "toolStripItem_SceneView";
-            this.toolStripItem_SceneView.Size = new System.Drawing.Size(152, 22);
+            this.toolStripItem_SceneView.Size = new System.Drawing.Size(137, 22);
             this.toolStripItem_SceneView.Text = "Scene View";
             this.toolStripItem_SceneView.CheckedChanged += new System.EventHandler(this.toolStripItem_SceneView_CheckedChanged_1);
             // 
@@ -93,9 +98,22 @@
             // 
             this.toolStripItem_EntityView.CheckOnClick = true;
             this.toolStripItem_EntityView.Name = "toolStripItem_EntityView";
-            this.toolStripItem_EntityView.Size = new System.Drawing.Size(152, 22);
+            this.toolStripItem_EntityView.Size = new System.Drawing.Size(137, 22);
             this.toolStripItem_EntityView.Text = "Entity View";
             this.toolStripItem_EntityView.CheckedChanged += new System.EventHandler(this.toolStripItem_EntityView_CheckedChanged);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Text = "Save As...";
             // 
             // EditorMainWindow
             // 
@@ -106,6 +124,7 @@
             this.Controls.Add(this.menuStrip1);
             this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::Editor.Properties.Settings.Default, "EditorMainPos", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.IsMdiContainer = true;
+            this.KeyPreview = true;
             this.Location = global::Editor.Properties.Settings.Default.EditorMainPos;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "EditorMainWindow";
@@ -128,6 +147,8 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripItem_FileReg;
         private System.Windows.Forms.ToolStripMenuItem toolStripItem_SceneView;
         private System.Windows.Forms.ToolStripMenuItem toolStripItem_EntityView;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
     }
 }
 

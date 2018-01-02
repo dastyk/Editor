@@ -22,7 +22,6 @@ namespace Editor
         EntityViewWindow entityViewWindow;
         ResourceHandler resourceHandler;
         Collection managers = new Collection();
-        Components.FileToolBar fileToolBar;
         void fileRegisterWindowClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.MdiFormClosing)
@@ -49,8 +48,7 @@ namespace Editor
 
         public EditorMainWindow()
         {
-
-            fileToolBar = new Components.FileToolBar(this.Controls, managers);
+            
             InitializeComponent();
 
             if (Settings.Default.EditorMainSize != null)
@@ -80,10 +78,7 @@ namespace Editor
             sceneViewWindow = new SceneViewWindow(binaryLoader, managers, entityViewWindow);
             sceneViewWindow.MdiParent = this;
             sceneViewWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(sceneViewWindowClosing);
-
-            fileToolBar.SetLoader(binaryLoader);
-            fileToolBar.SetSceneView(sceneViewWindow);
-
+            
             toolStripItem_FileReg.Checked = Settings.Default.FileRegVisible;
             toolStripItem_SceneView.Checked = Settings.Default.SceneViewVisible;
             toolStripItem_EntityView.Checked = Settings.Default.EntityViewVisible;
@@ -134,6 +129,20 @@ namespace Editor
         {
             Settings.Default.EntityViewVisible = entityViewWindow.Visible = toolStripItem_EntityView.Checked;
             entityViewWindow.Location = Settings.Default.EntityViewPos;
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var scenes = managers.sceneManager.GetRegisteredEntities();
+            foreach (UInt32 ent in scenes)
+            {
+
+                var r = managers.sceneManager.WriteComponent(binaryLoader, ent, managers.sceneManager.GetNameOfScene(ent), "Scene");
+                if (r != 0)
+                {
+                    MessageBox.Show("Could not write scene component", "Error: " + r.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

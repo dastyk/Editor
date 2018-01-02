@@ -46,12 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\FileToolBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Components\FileToolBar.Designer.cs">
-      <DependentUpon>FileToolBar.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\AddEntityWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,9 +97,6 @@
     <Compile Include="Forms\EntityViewWindow.Designer.cs">
       <DependentUpon>EntityViewWindow.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Components\FileToolBar.resx">
-      <DependentUpon>FileToolBar.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddEntityWindow.resx">
       <DependentUpon>AddEntityWindow.cs</DependentUpon>
     </EmbeddedResource>

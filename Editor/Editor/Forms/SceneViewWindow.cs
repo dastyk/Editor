@@ -97,7 +97,7 @@ namespace Editor
             //    MessageBox.Show("Error when fetching scenes from file system", "Error: " + result.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
             //}
             //else
-            if(result == 0)
+            if (result == 0)
             {
                 List<LoaderFile> cleared = new List<LoaderFile>(scenes);
                 foreach (LoaderFile file in scenes)
@@ -112,13 +112,13 @@ namespace Editor
                                 cleared.Remove(file2);
                                 break;
                             }
-                                
+
                         }
 
 
                     }
                 }
-               
+
                 foreach (LoaderFile file in cleared)
                 {
                     var node = new TreeNode();
@@ -130,10 +130,14 @@ namespace Editor
 
         private void sceneTree_MouseDown(object sender, MouseEventArgs e)
         {
-   
+
             if (e.Button == MouseButtons.Right)
             {
-                    scenesTree.SelectedNode = scenesTree.GetNodeAt(new Point(e.X,e.Y));
+                scenesTree.SelectedNode = scenesTree.GetNodeAt(new Point(e.X, e.Y));
+                if (scenesTree.SelectedNode == null)
+                    renameToolStripMenuItem.Enabled = false;
+                else
+                    renameToolStripMenuItem.Enabled = true;
                 cms_Scene.Show(new Point(Cursor.Position.X, Cursor.Position.Y));
             }
         }
@@ -145,31 +149,67 @@ namespace Editor
             addSceneWindow.StartPosition = FormStartPosition.Manual;
             var parentNode = scenesTree.SelectedNode;
             var r = addSceneWindow.ShowDialog();
-            if(r == DialogResult.OK)
+            var name = addSceneWindow.name;
+            bool rename = false;
+            if (r == DialogResult.OK)
             {
-                TreeNode node = new TreeNode();
-                node.Text = addSceneWindow.name;
-                node.Name = addSceneWindow.name;
-                var ent =  managers.entityManager.Create();
-                node.Tag = ent;
-                managers.sceneManager.Create(ent, addSceneWindow.name);
+                var findIn = scenesTree.Nodes.Find(addSceneWindow.name, true);
+                if (findIn.Length > 0)
+                {
+                    var findinR = MessageBox.Show("A scene with this name already exists. Rename the scene?", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+                    if (findinR == DialogResult.Cancel)
+                        return;
+                    else if (findinR == DialogResult.OK)
+                    {
+                       
+                        int count = 0;
 
-               
-                TreeNodeCollection treeNodeCollection;
-                if (parentNode == null)
-                    treeNodeCollection = scenesTree.Nodes;
+                        while(!rename)
+                        {
+                            if(scenesTree.Nodes.Find(name+"_"+count.ToString(), true).Length == 0)
+                            {
+                                name += "_" + count.ToString();
+                                rename = true;
+                            }
+                            count++;
+                        }
+
+                      
+                    }
+                }
                 else
                 {
-                    treeNodeCollection = parentNode.Nodes;
-                    var parentEnt = (UInt32)parentNode.Tag;
-                    managers.sceneManager.AddEntityToScene(parentEnt, ent, addSceneWindow.name);
+
+
+                    TreeNode node = new TreeNode();
+                    node.Text = name;
+                    node.Name = name;
+                    var ent = managers.entityManager.Create();
+                    node.Tag = ent;
+                    managers.sceneManager.Create(ent, name);
+
+
+                    TreeNodeCollection treeNodeCollection;
+                    if (parentNode == null)
+                        treeNodeCollection = scenesTree.Nodes;
+                    else
+                    {
+                        treeNodeCollection = parentNode.Nodes;
+                        var parentEnt = (UInt32)parentNode.Tag;
+                        managers.sceneManager.AddEntityToScene(parentEnt, ent, name);
+                    }
+                    treeNodeCollection.Add(node);
+                    scenesTree.SelectedNode = node;
+                    if (parentNode != null)
+                        parentNode.Expand();
+                    if(rename)
+                    {
+                        scenesTree.LabelEdit = true;
+                        scenesTree.SelectedNode.BeginEdit();
+                    }
                 }
-                treeNodeCollection.Add(node);
-                scenesTree.SelectedNode = node;
-                if (parentNode != null)
-                     parentNode.Expand();
             }
-          
+
         }
 
         private void scenesTree_AfterSelect(object sender, TreeViewEventArgs e)
@@ -177,18 +217,20 @@ namespace Editor
             var node = scenesTree.SelectedNode;
             sceneTree.Nodes.Clear();
             var newNode = new TreeNode();
-          
+
             newNode.Text = node.Text + "  ";
             newNode.Name = node.Name;
             newNode.Tag = node.Tag;
             newNode.NodeFont = new Font(sceneTree.Font, FontStyle.Bold);
 
             sceneTree.Nodes.Add(newNode);
-
+            sceneTree.SelectedNode = newNode;
         }
 
         private void cmsi_AddEntity_Click(object sender, EventArgs e)
         {
+            if (sceneTree.Nodes.Count == 0)
+                return;
             var parentNode = sceneTree.SelectedNode;
             if (parentNode == null)
             {
@@ -205,12 +247,16 @@ namespace Editor
                 if (!managers.sceneManager.IsRegistered(parentEnt))
                 {
                     var conR = MessageBox.Show("Entity must be a scene. Convert to scene?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
-                    if (conR != DialogResult.Yes)
-                    {
+                    if (conR == DialogResult.No)
                         return;
-                    }
 
                     managers.sceneManager.Create(parentEnt, parentNode.Name);
+                    var inS = scenesTree.Nodes.Find(parentNode.Name, true);
+                    var newS = new TreeNode();
+                    newS.Text = parentNode.Text;
+                    newS.Name = parentNode.Name;
+                    newS.Tag = parentNode.Tag;
+                    inS[0].Nodes.Add(newS);
                 }
 
                 var ent = managers.entityManager.Create();
@@ -246,6 +292,80 @@ namespace Editor
         public TreeNodeCollection GetRootNodes()
         {
             return scenesTree.Nodes;
+        }
+
+        private void renameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            scenesTree.LabelEdit = true;
+            scenesTree.SelectedNode.BeginEdit();
+        }
+
+        private void scenesTree_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+        {
+            var node = scenesTree.SelectedNode;
+            if (node == null)
+            {
+                e.CancelEdit = true;
+                scenesTree.LabelEdit = false;
+                return;
+            }
+            if(e.Label == null)
+            {
+                scenesTree.LabelEdit = false;
+                e.CancelEdit = true;
+                return;
+            }
+            if (e.Label == "")
+            {
+                var r = MessageBox.Show("Name can not be empty", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+                e.CancelEdit = true;
+                if (r == DialogResult.Cancel)
+                {
+                    scenesTree.LabelEdit = false;
+                    e.CancelEdit = true;
+                    return;
+                }
+
+                scenesTree.SelectedNode.BeginEdit();
+                return;
+            }
+            var find = scenesTree.Nodes.Find(e.Label, true);
+            if(find.Length > 0)
+            {
+                var r = MessageBox.Show("Name " + e.Label + " is already taken", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+                e.CancelEdit = true;
+                if (r == DialogResult.Cancel)
+                {
+                    scenesTree.LabelEdit = false;
+                    e.CancelEdit = true;
+                    return;
+                }
+
+                scenesTree.SelectedNode.BeginEdit();
+                return;
+            }
+
+            scenesTree.SelectedNode.EndEdit(false);
+            scenesTree.LabelEdit = false;
+            node.Name = node.Text = e.Label;
+            managers.sceneManager.Rename((UInt32)node.Tag, node.Text);
+            if (node.Parent != null)
+                managers.sceneManager.RenameEntityInScene((UInt32)node.Parent.Tag, (UInt32)node.Tag, node.Name);
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var node = scenesTree.SelectedNode;
+           var r=  MessageBox.Show("Delete scene " + node.Text + "?", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+            if(r == DialogResult.OK)
+            {
+                if (node.Parent == null)
+                    scenesTree.Nodes.Remove(node);
+                else
+                    node.Parent.Nodes.Remove(node);
+                managers.entityManager.DestroyNow((UInt32)node.Tag);
+                    
+            }
         }
     }
 }

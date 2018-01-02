@@ -35,6 +35,7 @@ namespace EngineImporter.Managers
             entityManager = em;
             InitInfo ii = new InitInfo { entityManager = em.GetObj(), pNext = UIntPtr.Zero };
             obj = TransformManager_CreateTransformManager_C(ii);
+            em.RegisterForDestroyNow(this);
         }
         public void Create(Entity ent)
         {

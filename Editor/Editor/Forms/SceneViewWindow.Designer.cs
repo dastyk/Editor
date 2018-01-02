@@ -36,6 +36,10 @@
             this.sceneTree = new System.Windows.Forms.TreeView();
             this.cms_NewEnt = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmsi_AddEntity = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cms_Scene.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
@@ -53,20 +57,25 @@
             this.scenesTree.Name = "scenesTree";
             this.scenesTree.Size = new System.Drawing.Size(96, 257);
             this.scenesTree.TabIndex = 0;
+            this.scenesTree.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.scenesTree_AfterLabelEdit);
             this.scenesTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.scenesTree_AfterSelect);
             this.scenesTree.MouseDown += new System.Windows.Forms.MouseEventHandler(this.sceneTree_MouseDown);
             // 
             // cms_Scene
             // 
             this.cms_Scene.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmsi_New});
+            this.cmsi_New,
+            this.toolStripMenuItem1,
+            this.renameToolStripMenuItem,
+            this.toolStripMenuItem3,
+            this.deleteToolStripMenuItem});
             this.cms_Scene.Name = "contextMenuStrip1";
-            this.cms_Scene.Size = new System.Drawing.Size(133, 26);
+            this.cms_Scene.Size = new System.Drawing.Size(153, 104);
             // 
             // cmsi_New
             // 
             this.cmsi_New.Name = "cmsi_New";
-            this.cmsi_New.Size = new System.Drawing.Size(132, 22);
+            this.cmsi_New.Size = new System.Drawing.Size(152, 22);
             this.cmsi_New.Text = "New Scene";
             this.cmsi_New.Click += new System.EventHandler(this.cmsi_New_Click);
             // 
@@ -111,9 +120,33 @@
             // cmsi_AddEntity
             // 
             this.cmsi_AddEntity.Name = "cmsi_AddEntity";
-            this.cmsi_AddEntity.Size = new System.Drawing.Size(152, 22);
+            this.cmsi_AddEntity.Size = new System.Drawing.Size(129, 22);
             this.cmsi_AddEntity.Text = "Add Entity";
             this.cmsi_AddEntity.Click += new System.EventHandler(this.cmsi_AddEntity_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+            // 
+            // renameToolStripMenuItem
+            // 
+            this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
+            this.renameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.renameToolStripMenuItem.Text = "Rename";
+            this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(149, 6);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // SceneViewWindow
             // 
@@ -146,5 +179,9 @@
         private System.Windows.Forms.TreeView sceneTree;
         private System.Windows.Forms.ContextMenuStrip cms_NewEnt;
         private System.Windows.Forms.ToolStripMenuItem cmsi_AddEntity;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem renameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
     }
 }

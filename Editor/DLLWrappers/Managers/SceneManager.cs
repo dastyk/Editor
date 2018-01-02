@@ -48,7 +48,12 @@ namespace EngineImporter.Managers
         static extern void SceneManager_GetChildResourcesOfSceneResource_C(UIntPtr obj, UInt32 guid, UInt32[] arr, UInt32 numResources);
         [DllImport("ECS.dll")]
         static extern void SceneManager_RegisterManager_C(UIntPtr obj, UIntPtr mb);
+        [DllImport("ECS.dll")]
+        static extern void SceneManager_SetNameOfScene_C(UIntPtr obj, Entity scene, String name);
+        [DllImport("ECS.dll")]
+        static extern void SceneManager_SetNameOfEntityScene_C(UIntPtr obj, Entity scene, Entity entity, String name);
 
+        
 
         public SceneManager(EntityManager em, TransformManager tm)
         {
@@ -56,6 +61,7 @@ namespace EngineImporter.Managers
             InitInfo ii = new InitInfo { entityManager = em.GetObj(), transformManager = tm.GetObj(), pNext = UIntPtr.Zero };
             obj = SceneManager_CreateSceneManager_C(ii);
             SceneManager_RegisterManager_C(obj, tm.GetObj());
+            em.RegisterForDestroyNow(this);
         }
         public void Create(Entity entity, String name)
         {
@@ -93,6 +99,14 @@ namespace EngineImporter.Managers
             var res = new UInt32[numR];
             SceneManager_GetChildResourcesOfSceneResource_C(obj, guid, res, numR);
             return res;
+        }
+        public void Rename(Entity scene, String name)
+        {
+            SceneManager_SetNameOfScene_C(obj, scene, name);
+        }
+        public void RenameEntityInScene(Entity scene, Entity entity, String name)
+        {
+            SceneManager_SetNameOfEntityScene_C(obj, scene, entity, name);
         }
     }
 }
