@@ -151,22 +151,23 @@ namespace Editor
             var r = addSceneWindow.ShowDialog();
             var name = addSceneWindow.name;
             bool rename = false;
+            UInt32 ent = UInt32.MaxValue;
             if (r == DialogResult.OK)
             {
                 var findIn = scenesTree.Nodes.Find(addSceneWindow.name, true);
                 if (findIn.Length > 0)
                 {
-                    var findinR = MessageBox.Show("A scene with this name already exists. Rename the scene?", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+                    var findinR = MessageBox.Show("A scene with this name already exists. Yes, use existing scene. No, rename the scene", "", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
                     if (findinR == DialogResult.Cancel)
                         return;
-                    else if (findinR == DialogResult.OK)
+                    if (findinR == DialogResult.No)
                     {
-                       
+
                         int count = 0;
 
-                        while(!rename)
+                        while (!rename)
                         {
-                            if(scenesTree.Nodes.Find(name+"_"+count.ToString(), true).Length == 0)
+                            if (scenesTree.Nodes.Find(name + "_" + count.ToString(), true).Length == 0)
                             {
                                 name += "_" + count.ToString();
                                 rename = true;
@@ -174,40 +175,45 @@ namespace Editor
                             count++;
                         }
 
-                      
+
+                    }
+                    else if (findinR == DialogResult.Yes)
+                    {
+                        ent = (UInt32)findIn[0].Tag;
                     }
                 }
+
+                if (ent == UInt32.MaxValue)
+                {
+                    ent = managers.entityManager.Create();
+                    managers.sceneManager.Create(ent, name);
+                }
+                TreeNode node = new TreeNode();
+                node.Text = name;
+                node.Name = name;
+
+                node.Tag = ent;
+
+
+                TreeNodeCollection treeNodeCollection;
+                if (parentNode == null)
+                    treeNodeCollection = scenesTree.Nodes;
                 else
                 {
-
-
-                    TreeNode node = new TreeNode();
-                    node.Text = name;
-                    node.Name = name;
-                    var ent = managers.entityManager.Create();
-                    node.Tag = ent;
-                    managers.sceneManager.Create(ent, name);
-
-
-                    TreeNodeCollection treeNodeCollection;
-                    if (parentNode == null)
-                        treeNodeCollection = scenesTree.Nodes;
-                    else
-                    {
-                        treeNodeCollection = parentNode.Nodes;
-                        var parentEnt = (UInt32)parentNode.Tag;
-                        managers.sceneManager.AddEntityToScene(parentEnt, ent, name);
-                    }
-                    treeNodeCollection.Add(node);
-                    scenesTree.SelectedNode = node;
-                    if (parentNode != null)
-                        parentNode.Expand();
-                    if(rename)
-                    {
-                        scenesTree.LabelEdit = true;
-                        scenesTree.SelectedNode.BeginEdit();
-                    }
+                    treeNodeCollection = parentNode.Nodes;
+                    var parentEnt = (UInt32)parentNode.Tag;
+                    managers.sceneManager.AddEntityToScene(parentEnt, ent, name);
                 }
+                treeNodeCollection.Add(node);
+                scenesTree.SelectedNode = node;
+                if (parentNode != null)
+                    parentNode.Expand();
+                if (rename)
+                {
+                    scenesTree.LabelEdit = true;
+                    scenesTree.SelectedNode.BeginEdit();
+                }
+
             }
 
         }
