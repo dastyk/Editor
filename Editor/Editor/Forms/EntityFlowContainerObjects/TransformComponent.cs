@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DLLWrappers.Managers;
+using EngineImporter.Managers;
 
 namespace Editor.Forms.EntityFlowContainerObjects
 {

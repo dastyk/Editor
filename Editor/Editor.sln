@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "Editor\Editor.csp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResourceHandler", "..\..\ResourceHandler\ResourceHandler\ResourceHandler\ResourceHandler.vcxproj", "{D4CCCF45-CBB6-406F-8B19-53666AE769B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DLLWrappers", "DLLWrappers\DLLWrappers.csproj", "{B2CAA4CA-3133-41F7-B026-A8C52C98545F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EngineImporter", "DLLWrappers\EngineImporter.csproj", "{B2CAA4CA-3133-41F7-B026-A8C52C98545F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D4CCCF45-CBB6-406F-8B19-53666AE769B2} = {D4CCCF45-CBB6-406F-8B19-53666AE769B2}
 		{70E14DE8-7FF0-4249-9B02-ED33116C837D} = {70E14DE8-7FF0-4249-9B02-ED33116C837D}

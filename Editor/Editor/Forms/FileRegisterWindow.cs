@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Editor.Properties;
-using DLLWrappers;
+using EngineImporter;
 namespace Editor
 {
     public partial class FileRegisterWindow : Form

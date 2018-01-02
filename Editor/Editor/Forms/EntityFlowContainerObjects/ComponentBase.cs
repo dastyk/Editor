@@ -9,7 +9,7 @@ namespace Editor.Forms.EntityFlowContainerObjects
     public delegate void DeleteEventHandler(object sender);
     public interface ComponentBase
     {
-        DLLWrappers.Managers.ManagerBase GetManager();
+        EngineImporter.Managers.ManagerBase GetManager();
         void Added();
         void ReadInfo();
         void RegisterDelete(DeleteEventHandler deleteEventHandler);

@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DLLWrappers.Managers;
+using EngineImporter.Managers;
 namespace Editor.Components
 {
     public partial class FileToolBar : Component
     {
         Collection managers;
-        DLLWrappers.BinaryLoader_Wrapper loader;
+        EngineImporter.BinaryLoader_Wrapper loader;
         SceneViewWindow sceneViewWindow;
         public FileToolBar(Control.ControlCollection controlCollection, Collection managers)
         {
@@ -22,7 +22,7 @@ namespace Editor.Components
             InitializeComponent();
             controlCollection.Add(this.toolBar);
         }
-        public void SetLoader(DLLWrappers.BinaryLoader_Wrapper l)
+        public void SetLoader(EngineImporter.BinaryLoader_Wrapper l)
         {
             loader = l;
         }

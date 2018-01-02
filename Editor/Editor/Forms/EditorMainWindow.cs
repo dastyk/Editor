@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Editor.Properties;
-using DLLWrappers;
-using DLLWrappers.Managers;
+using EngineImporter;
+using EngineImporter.Managers;
 
 namespace Editor
 {
