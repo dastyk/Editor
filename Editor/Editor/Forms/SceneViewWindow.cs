@@ -14,9 +14,7 @@ namespace Editor
 {
     public partial class SceneViewWindow : Form
     {
-        BinaryLoader_Wrapper bl;
-        Collection managers;
-        EntityViewWindow entityViewWindow;
+        Utilities.EditorWrapper wrapper;
 
         void FixNodeHighlight(TreeView treeView)
         {
@@ -46,10 +44,10 @@ namespace Editor
             node.Text = file.name;
             node.Name = file.name;
             node.Tag = file.entity;
-            var entInScene = managers.sceneManager.GetEntitiesInScene(file.entity);
+            var entInScene = wrapper.managers.sceneManager.GetEntitiesInScene(file.entity);
             foreach (EntityInfo ei in entInScene)
             {
-                if (managers.sceneManager.IsRegistered(ei.entity))
+                if (wrapper.managers.sceneManager.IsRegistered(ei.entity))
                 {
                     var child = new TreeNode();
                     CreateSceneNode(ei, type, child);
@@ -60,15 +58,15 @@ namespace Editor
         }
         private void CreateSceneNode(LoaderFile file, TreeNode node)
         {
-            var ent = managers.entityManager.Create();
-            managers.sceneManager.Create(ent, file.guid, file.type);
+            var ent = wrapper.managers.entityManager.Create();
+            wrapper.managers.sceneManager.Create(ent, file.guid, file.type);
             node.Text = file.guid_str;
             node.Name = file.guid_str;
             node.Tag = ent;
-            var entInScene = managers.sceneManager.GetEntitiesInScene(ent);
+            var entInScene = wrapper.managers.sceneManager.GetEntitiesInScene(ent);
             foreach (EntityInfo ei in entInScene)
             {
-                if (managers.sceneManager.IsRegistered(ei.entity))
+                if (wrapper.managers.sceneManager.IsRegistered(ei.entity))
                 {
                     var child = new TreeNode();
                     CreateSceneNode(ei, file.type_str, child);
@@ -77,12 +75,10 @@ namespace Editor
             }
 
         }
-        public SceneViewWindow(BinaryLoader_Wrapper bl, Collection managers, EntityViewWindow evw)
+        public SceneViewWindow(Utilities.EditorWrapper wrapper)
         {
             InitializeComponent();
-            this.bl = bl;
-            this.managers = managers;
-            entityViewWindow = evw;
+            this.wrapper = wrapper;
             if (Settings.Default.EditorMainSize != null)
                 this.Size = Settings.Default.SceneViewSize;
             splitContainer.SplitterDistance = Settings.Default.SceneViewSplitDistance;
@@ -91,7 +87,7 @@ namespace Editor
             FixNodeHighlight(sceneTree);
 
             List<LoaderFile> scenes;
-            var result = bl.GetFilesOfType("Scene", out scenes);
+            var result = wrapper.binaryLoader.GetFilesOfType("Scene", out scenes);
             //if(result != 0)
             //{
             //    MessageBox.Show("Error when fetching scenes from file system", "Error: " + result.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -102,7 +98,7 @@ namespace Editor
                 List<LoaderFile> cleared = new List<LoaderFile>(scenes);
                 foreach (LoaderFile file in scenes)
                 {
-                    var inscene = managers.sceneManager.GetChildResourcesOfSceneResource(file.guid);
+                    var inscene = wrapper.managers.sceneManager.GetChildResourcesOfSceneResource(file.guid);
                     foreach (UInt32 guid in inscene)
                     {
                         foreach (LoaderFile file2 in cleared)
@@ -185,8 +181,8 @@ namespace Editor
 
                 if (ent == UInt32.MaxValue)
                 {
-                    ent = managers.entityManager.Create();
-                    managers.sceneManager.Create(ent, name);
+                    ent = wrapper.managers.entityManager.Create();
+                    wrapper.managers.sceneManager.Create(ent, name);
                 }
                 TreeNode node = new TreeNode();
                 node.Text = name;
@@ -202,7 +198,7 @@ namespace Editor
                 {
                     treeNodeCollection = parentNode.Nodes;
                     var parentEnt = (UInt32)parentNode.Tag;
-                    managers.sceneManager.AddEntityToScene(parentEnt, ent, name);
+                    wrapper.managers.sceneManager.AddEntityToScene(parentEnt, ent, name);
                 }
                 treeNodeCollection.Add(node);
                 scenesTree.SelectedNode = node;
@@ -250,13 +246,13 @@ namespace Editor
             if (r == DialogResult.OK)
             {
                 var parentEnt = (UInt32)parentNode.Tag;
-                if (!managers.sceneManager.IsRegistered(parentEnt))
+                if (!wrapper.managers.sceneManager.IsRegistered(parentEnt))
                 {
                     var conR = MessageBox.Show("Entity must be a scene. Convert to scene?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
                     if (conR == DialogResult.No)
                         return;
 
-                    managers.sceneManager.Create(parentEnt, parentNode.Name);
+                    wrapper.managers.sceneManager.Create(parentEnt, parentNode.Name);
                     var inS = scenesTree.Nodes.Find(parentNode.Name, true);
                     var newS = new TreeNode();
                     newS.Text = parentNode.Text;
@@ -265,11 +261,11 @@ namespace Editor
                     inS[0].Nodes.Add(newS);
                 }
 
-                var ent = managers.entityManager.Create();
+                var ent = wrapper.managers.entityManager.Create();
                 TreeNode node = new TreeNode();
                 node.Text = addEntitywindow.name;
                 node.Name = addEntitywindow.name;
-                node.Tag = managers.entityManager.Create();
+                node.Tag = wrapper.managers.entityManager.Create();
                 parentNode.Nodes.Add(node);
                 parentNode.Expand();
 
@@ -292,7 +288,7 @@ namespace Editor
         {
             var node = sceneTree.SelectedNode;
             var ent = (UInt32)node.Tag;
-            entityViewWindow.SetEntity(ent);
+            wrapper.entityViewWindow.SetEntity(ent);
         }
 
         public TreeNodeCollection GetRootNodes()
@@ -354,9 +350,9 @@ namespace Editor
             scenesTree.SelectedNode.EndEdit(false);
             scenesTree.LabelEdit = false;
             node.Name = node.Text = e.Label;
-            managers.sceneManager.Rename((UInt32)node.Tag, node.Text);
+            wrapper.managers.sceneManager.Rename((UInt32)node.Tag, node.Text);
             if (node.Parent != null)
-                managers.sceneManager.RenameEntityInScene((UInt32)node.Parent.Tag, (UInt32)node.Tag, node.Name);
+                wrapper.managers.sceneManager.RenameEntityInScene((UInt32)node.Parent.Tag, (UInt32)node.Tag, node.Name);
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -369,7 +365,7 @@ namespace Editor
                     scenesTree.Nodes.Remove(node);
                 else
                     node.Parent.Nodes.Remove(node);
-                managers.entityManager.DestroyNow((UInt32)node.Tag);
+                wrapper.managers.entityManager.DestroyNow((UInt32)node.Tag);
                     
             }
         }

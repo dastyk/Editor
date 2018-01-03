@@ -31,11 +31,11 @@ namespace Editor.Utilities
             managers.transformManager = new TransformManager(managers.entityManager);
             managers.sceneManager = new SceneManager(managers.entityManager, managers.transformManager);
 
-            fileRegisterWindow = new FileRegisterWindow(binaryLoader);
+            fileRegisterWindow = new FileRegisterWindow(this);
          
-            entityViewWindow = new EntityViewWindow(binaryLoader, managers);
+            entityViewWindow = new EntityViewWindow(this);
           
-            sceneViewWindow = new SceneViewWindow(binaryLoader, managers, entityViewWindow);
+            sceneViewWindow = new SceneViewWindow(this);
            
 
         }

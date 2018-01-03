@@ -12,19 +12,19 @@ using EngineImporter.Managers;
 namespace Editor.Forms.EntityFlowContainerObjects
 {
     using Entity = UInt32;
-
+    
     public partial class AddComponentEntry : UserControl
     {
         Entity entity;
         FlowLayoutPanel flp_components;
-        Collection managers;
-        public AddComponentEntry(FlowLayoutPanel cp, Entity entity, Collection managers)
+        Utilities.EditorWrapper wrapper;
+        public AddComponentEntry(FlowLayoutPanel cp, Entity entity, Utilities.EditorWrapper wrapper)
         {
             InitializeComponent();
             this.flp_components = cp;
-            this.managers = managers;
+            this.wrapper = wrapper;
             this.entity = entity;
-            ddl_Components.Items.Add(new TransformComponent(entity, managers.transformManager));
+            ddl_Components.Items.Add(new TransformComponent(entity, wrapper));
 
             ddl_Components.SelectedIndex = 0;
             

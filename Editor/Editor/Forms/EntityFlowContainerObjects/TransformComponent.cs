@@ -16,22 +16,21 @@ namespace Editor.Forms.EntityFlowContainerObjects
     public partial class TransformComponent : UserControl, ComponentBase
     {
         Entity entity;
-        TransformManager manager;
+        Utilities.EditorWrapper wrapper;
         event DeleteEventHandler OnDelete;
-        public TransformComponent(Entity entity, TransformManager tm)
+        public TransformComponent(Entity entity,Utilities.EditorWrapper wrapper)
         {
+            this.wrapper = wrapper;
             InitializeComponent();
             this.entity = entity;
-            manager = tm;
-
         }
         public ManagerBase GetManager()
         {
-            return manager;         
+            return wrapper.managers.transformManager;         
         }
         public void Added()
         {
-             manager.Create(entity);
+            wrapper.managers.transformManager.Create(entity);
         }
         private String ToString(float v)
         {
@@ -42,11 +41,11 @@ namespace Editor.Forms.EntityFlowContainerObjects
         }
         public void ReadInfo()
         {
-            var pos = manager.GetPosition(entity);
+            var pos = wrapper.managers.transformManager.GetPosition(entity);
             posX.Text = ToString(pos.x);
             posY.Text = ToString(pos.y);
             posZ.Text = ToString(pos.z);
-            var scale = manager.GetScale(entity);
+            var scale = wrapper.managers.transformManager.GetScale(entity);
             scaleX.Text = ToString(scale.x);
             scaleY.Text = ToString(scale.x);
             scaleZ.Text = ToString(scale.x);
@@ -78,7 +77,7 @@ namespace Editor.Forms.EntityFlowContainerObjects
             pos.x = ToFloat(posX.Text);
             pos.y = ToFloat(posY.Text);
             pos.z = ToFloat(posZ.Text);
-            manager.SetPosition(entity, pos);
+            wrapper.managers.transformManager.SetPosition(entity, pos);
         }
         private void scaleChanged(object sender, EventArgs e)
         {
@@ -86,7 +85,7 @@ namespace Editor.Forms.EntityFlowContainerObjects
             scale.x = ToFloat(scaleX.Text);
             scale.y = ToFloat(scaleY.Text);
             scale.z = ToFloat(scaleZ.Text);
-            manager.SetScale(entity, scale);
+            wrapper.managers.transformManager.SetScale(entity, scale);
         }
     }
 }

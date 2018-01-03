@@ -17,21 +17,21 @@ namespace Editor
         {
             public String originalPath { get; set; }
         }
-        BinaryLoader_Wrapper binaryLoader;
-        public FileRegisterWindow(BinaryLoader_Wrapper binaryLoader_)
+        Utilities.EditorWrapper wrapper;
+        public FileRegisterWindow(Utilities.EditorWrapper wrapper)
         {
             InitializeComponent();
 
             if (Settings.Default.EditorMainSize != null)
                 this.Size = Settings.Default.FileRegSize;
 
-            binaryLoader = binaryLoader_;
+            this.wrapper = wrapper;
             ReadFiles();
         }
         public void RemoveFilesThatDoNotMatch(String[] names, String type)
         {
             List<LoaderFile> files;
-            var r = binaryLoader.GetFilesOfType(type, out files);
+            var r = wrapper.binaryLoader.GetFilesOfType(type, out files);
             if (r != 0)
             {
                 MessageBox.Show("Could not get files of type: " + type, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -41,7 +41,7 @@ namespace Editor
             {
                 if (Array.Find(names, n => n == f.guid_str) == null)
                 {
-                    binaryLoader.Destroy(f.guid_str, type);
+                    wrapper.binaryLoader.Destroy(f.guid_str, type);
                 }
             }
             
@@ -49,7 +49,7 @@ namespace Editor
         private void ReadFiles()
         {
             List<LoaderFile> files;
-            var r = binaryLoader.GetFiles(out files);
+            var r = wrapper.binaryLoader.GetFiles(out files);
             if (r == 0)
             {
                 TreeNode root = new TreeNode("Root");
@@ -126,13 +126,13 @@ namespace Editor
                         return;
                     }
 
-                    binaryLoader.Destroy(addFileWindow.name, addFileWindow.type);
+                    wrapper.binaryLoader.Destroy(addFileWindow.name, addFileWindow.type);
                     typeNodes.Remove(file[0]);
                 }
                 TreeNode fileNode = new TreeNode(addFileWindow.name);
                 fileNode.Name = addFileWindow.name;
                
-                var cresult =  binaryLoader.CreateFromFile(addFileWindow.file, addFileWindow.name, addFileWindow.type);
+                var cresult = wrapper.binaryLoader.CreateFromFile(addFileWindow.file, addFileWindow.name, addFileWindow.type);
                 if(cresult != 0)
                 {
                     MessageBox.Show("Could not add file", "Error: " + cresult.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -153,7 +153,7 @@ namespace Editor
                 var r = MessageBox.Show("Are you sure you want to delete " + sel.Text + "?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if(r == DialogResult.Yes)
                 {
-                    var result = binaryLoader.Destroy(sel.Name, sel.Parent.Name);
+                    var result = wrapper.binaryLoader.Destroy(sel.Name, sel.Parent.Name);
                     if(result != 0)
                     {
                         MessageBox.Show("Could not delete file", "Error: " + result.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);

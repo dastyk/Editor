@@ -16,11 +16,11 @@ namespace Editor
     public partial class EntityViewWindow : Form
     {
         Entity entity;
-        Collection managers;
-        public EntityViewWindow(BinaryLoader_Wrapper bl, Collection managers)
+        Utilities.EditorWrapper wrapper;
+        public EntityViewWindow(Utilities.EditorWrapper wrapper)
         {
             InitializeComponent();
-            this.managers = managers;
+            this.wrapper = wrapper;
             this.Size = Settings.Default.EntityViewSize;
             //Forms.EntityFlowContainerObjects.AddComponentEntry addComponentEntry1 = new Forms.EntityFlowContainerObjects.AddComponentEntry();
             //addComponentEntry1.Width = Settings.Default.EntityFlowContWidth;
@@ -31,7 +31,7 @@ namespace Editor
         {
             entity = ent;
             entityComponents.Controls.Clear();
-            var addComponentEntry = new Forms.EntityFlowContainerObjects.AddComponentEntry(entityComponents,ent, managers);
+            var addComponentEntry = new Forms.EntityFlowContainerObjects.AddComponentEntry(entityComponents,ent, wrapper);
           
         }
         private void entityComponents_ClientSizeChanged(object sender, EventArgs e)
