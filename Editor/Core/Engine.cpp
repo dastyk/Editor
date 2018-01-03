@@ -1,6 +1,6 @@
 #include "Engine.h"
 #include <Core\EngineException.h>
-
+#include <Utilz\ThreadPool.h>
 namespace Core
 {
 
@@ -8,6 +8,16 @@ namespace Core
 		subSystems(initInfo.subSystems),
 		managers(initInfo.managers)
 	{
+		try
+		{
+			InitSubSystems();
+			InitManagers();
+		}
+		catch (const Engine_Exception& e)
+		{
+			Shutdown();
+			throw e;
+		}
 	}
 
 	Engine::~Engine()
@@ -40,7 +50,7 @@ namespace Core
 			if (!subSystems.fileSystem)
 				THROWERROR("Could not create filesystem", -1);
 			auto result = subSystems.fileSystem->Init("data.dat", ResourceHandler::Mode::READ);
-			if (!result)
+			if (result < 0)
 				THROWERROR("Could not init filesystem", result);
 		}
 		if (!subSystems.resourceHandler)
@@ -95,7 +105,7 @@ namespace Core
 		if (subSystems.fileSystem)
 		{
 			auto res = subSystems.fileSystem->Shutdown();
-			if (!res)
+			if (res < 0)
 				THROWERROR("Could not shutdown file system", res);
 			delete subSystems.fileSystem;
 		}

@@ -78,24 +78,28 @@
     <OutDir>$(SolutionDir)Build/$(Configuration)/$(Platform)/</OutDir>
     <IntDir>$(ProjectDir)Intermediate/$(Configuration)/$(Platform)/</IntDir>
     <TargetName>Editor</TargetName>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Editor/Editor/Include/;$(SolutionDir)../../CompileTimeGUID/include/;$(SolutionDir)../../ResourceHandler\ResourceHandler\Include/;$(SolutionDir)../../Sofa/Sofa/;$(SolutionDir)../../Profiler/Profiler/Profiler/;$(SolutionDir)../../EntityComponentSystem/EntityComponentSystem/Include/</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Build/$(Configuration)/$(Platform)/</OutDir>
     <IntDir>$(ProjectDir)Intermediate/$(Configuration)/$(Platform)/</IntDir>
     <TargetName>Editor</TargetName>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Editor/Editor/Include/;$(SolutionDir)../../CompileTimeGUID/include/;$(SolutionDir)../../ResourceHandler\ResourceHandler\Include/;$(SolutionDir)../../Sofa/Sofa/;$(SolutionDir)../../Profiler/Profiler/Profiler/;$(SolutionDir)../../EntityComponentSystem/EntityComponentSystem/Include/</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Build/$(Configuration)/$(Platform)/</OutDir>
     <IntDir>$(ProjectDir)Intermediate/$(Configuration)/$(Platform)/</IntDir>
     <TargetName>Editor</TargetName>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Editor/Editor/Include/;$(SolutionDir)../../CompileTimeGUID/include/;$(SolutionDir)../../ResourceHandler\ResourceHandler\Include/;$(SolutionDir)../../Sofa/Sofa/;$(SolutionDir)../../Profiler/Profiler/Profiler/;$(SolutionDir)../../EntityComponentSystem/EntityComponentSystem/Include/</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Build/$(Configuration)/$(Platform)/</OutDir>
     <IntDir>$(ProjectDir)Intermediate/$(Configuration)/$(Platform)/</IntDir>
     <TargetName>Editor</TargetName>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Editor/Editor/Include/;$(SolutionDir)../../CompileTimeGUID/include/;$(SolutionDir)../../ResourceHandler\ResourceHandler\Include/;$(SolutionDir)../../Sofa/Sofa/;$(SolutionDir)../../Profiler/Profiler/Profiler/;$(SolutionDir)../../EntityComponentSystem/EntityComponentSystem/Include/</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -162,6 +166,14 @@
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.h</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ResourceHandler\ResourceHandler\ResourceHandler\ResourceHandler.vcxproj">
+      <Project>{d4cccf45-cbb6-406f-8b19-53666ae769b2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Core.vcxproj">
+      <Project>{83bf0f18-8598-4e43-87f4-4d5638d73ac4}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

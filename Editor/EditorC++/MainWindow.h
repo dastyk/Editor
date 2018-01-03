@@ -1,5 +1,6 @@
 #pragma once
-
+#include <Core\Engine_Interface.h>
+#include <Core\EngineException.h>
 namespace EditorC {
 
 	using namespace System;
@@ -17,10 +18,27 @@ namespace EditorC {
 	public:
 		MainWindow(void)
 		{
+			engine = nullptr;
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
 			//
+			try
+			{
+				EngineInitializationInfo ii;
+				ii.subSystems.fileSystem = CreateFileSystem(ResourceHandler::FileSystemType::Binary);
+				if (!ii.subSystems.fileSystem)
+					THROWERROR("Could not create file system", -1);
+				auto r = ii.subSystems.fileSystem->Init("data.dat", ResourceHandler::Mode::EDIT);
+				if (r < 0)
+					THROWERROR("Could not init file system", r);
+				
+				engine = CreateEngine(ii);
+			}
+			catch (const Core::Engine_Exception& e)
+			{
+				MessageBox::Show(gcnew String(( e.msg+ "\nFile: " + e.file + "\nLine: " + std::to_string(e.line)).c_str()), "Error: " + e.error.ToString(),MessageBoxButtons::OK, MessageBoxIcon::Error);
+			}
 		}
 
 	protected:
@@ -33,9 +51,25 @@ namespace EditorC {
 			{
 				delete components;
 			}
+			if (engine)
+			{
+				try
+				{
+					engine->Shutdown();
+				}
+				catch (const Core::Engine_Exception& e)
+				{
+					MessageBox::Show(gcnew String((e.msg + "\nFile: " + e.file + "\nLine: " + std::to_string(e.line)).c_str()), "Error: " + e.error.ToString(), MessageBoxButtons::OK, MessageBoxIcon::Error);
+				}
+				delete engine;
+				engine = nullptr;
+			}
 		}
 
 	private:
+		Core::Engine_Interface* engine;
+
+
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>

@@ -5,7 +5,7 @@
 #include <Managers\SceneManager_Interface.h>
 #include <ResourceHandler\ResourceHandler_Interface.h>
 #include <ResourceHandler\FileSystem_Interface.h>
-
+#include <DLLExport.h>
 struct Managers
 {
 	ECS::EntityManager_Interface*				entityManager			= nullptr;
