@@ -23,7 +23,7 @@ namespace EngineImporter
     {
         UIntPtr loader;
         [DllImport("ResourceHandler.dll")]
-        static extern UIntPtr CreateLoader(uint type);
+        static extern UIntPtr CreateFileSystem(uint type);
         [DllImport("ResourceHandler.dll")]
         static extern Int32 InitLoader_C(UIntPtr loader, String filePath, int mode);
         [DllImport("ResourceHandler.dll")]
@@ -84,13 +84,13 @@ namespace EngineImporter
         public BinaryLoader_Wrapper()
         {
             loader = UIntPtr.Zero;
-            loader = CreateLoader(0);
+            loader = CreateFileSystem(0);
         }
         public void Reset()
         {
             DestroyLoader(loader);
             loader = UIntPtr.Zero;
-            loader = CreateLoader(0);
+            loader = CreateFileSystem(0);
 
         }
         ~BinaryLoader_Wrapper()
