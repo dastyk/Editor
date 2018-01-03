@@ -8,6 +8,15 @@ using EngineImporter.Managers;
 using System.Windows.Forms;
 namespace Editor.Utilities
 {
+    [Flags]public enum ChangeType
+    {
+        NONE = 0,
+        ENTITY = 1 << 0,
+        SCENE = 1 << 1,
+        FILE = 1 << 2
+    }
+    public delegate void EditorChangeEventHandler(ChangeType changeType);
+    public delegate void EditorSavedEventHandler();
     public class EditorWrapper
     {
         public BinaryLoader_Wrapper binaryLoader;
@@ -16,6 +25,8 @@ namespace Editor.Utilities
         public EntityViewWindow entityViewWindow;
         public ResourceHandler resourceHandler;
         public Collection managers = new Collection();
+        public event EditorChangeEventHandler ChangeEvent;
+        public event EditorSavedEventHandler SavedEvent;
         public EditorWrapper()
         {
             binaryLoader = new BinaryLoader_Wrapper();
@@ -32,31 +43,42 @@ namespace Editor.Utilities
             managers.sceneManager = new SceneManager(managers.entityManager, managers.transformManager);
 
             fileRegisterWindow = new FileRegisterWindow(this);
-         
+
             entityViewWindow = new EntityViewWindow(this);
-          
+
             sceneViewWindow = new SceneViewWindow(this);
-           
+
+            SavedEvent();
+        }
+        public void Changed(Utilities.ChangeType changeType)
+        {
+            ChangeEvent(changeType);
+        }
+        public void Reset()
+        {
+        
+            resourceHandler.Reset();
+
 
         }
         public void Save()
         {
             var scenes = managers.sceneManager.GetRegisteredEntities();
-            var names = new string[scenes.Length];
 
             for (int i = 0; i < scenes.Length; i++)
             {
                 var ent = scenes[i];
-                var r = managers.sceneManager.WriteComponent(binaryLoader, ent, managers.sceneManager.GetNameOfScene(ent), "Scene");
+                var r = managers.sceneManager.WriteComponent(binaryLoader, ent, managers.sceneManager.GetNameOfScene(ent));
                 if (r != 0)
                 {
                     MessageBox.Show("Could not write scene component", "Error: " + r.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                names[i] = managers.sceneManager.GetNameOfScene(ent);
+             
             }
-            fileRegisterWindow.RemoveFilesThatDoNotMatch(names, "Scene");
+            var names = sceneViewWindow.GetDeletedScenes();
+            fileRegisterWindow.RemoveFiles(names, "Scene");
 
-            fileRegisterWindow.Reset();
+            SavedEvent();
         }
     }
 }

@@ -26,6 +26,13 @@ namespace EngineImporter
             threadPool = CreateThreadPool(4);
             obj = CreateResourceHandler(loader.GetLoader(), threadPool);
         }
+        public void Reset()
+        {
+            DestroyResourceHandler(obj);
+            DestroyThreadPool(threadPool);
+            threadPool = CreateThreadPool(4);
+            obj = CreateResourceHandler(loader.GetLoader(), threadPool);
+        }
         ~ResourceHandler()
         {
             DestroyResourceHandler(obj);

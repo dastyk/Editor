@@ -77,6 +77,8 @@ namespace EngineImporter
         [DllImport("ResourceHandler.dll")]
         static extern Int32 GetFiles_C(UIntPtr loader, IntPtr files, UInt32 numfiles);
         [DllImport("ResourceHandler.dll")]
+        static extern Int32 GetFile_C(UIntPtr loader, ref FILE_C file, String name, String type);
+        [DllImport("ResourceHandler.dll")]
         static extern Int32 GetFilesOfType_C(UIntPtr loader, String type, IntPtr files, UInt32 numfiles);
 
         public BinaryLoader_Wrapper()
@@ -84,9 +86,16 @@ namespace EngineImporter
             loader = UIntPtr.Zero;
             loader = CreateLoader(0);
         }
+        public void Reset()
+        {
+            DestroyLoader(loader);
+            loader = UIntPtr.Zero;
+            loader = CreateLoader(0);
+
+        }
         ~BinaryLoader_Wrapper()
         {
-            if (loader != null)
+            if (loader != UIntPtr.Zero)
                 DestroyLoader(loader);
         }
         public UIntPtr GetLoader()
@@ -179,7 +188,25 @@ namespace EngineImporter
             }
             return result;
         }
-
+        public Int32 GetFile(out LoaderFile file, String name, String type)
+        {
+            FILE_C cFile = new FILE_C();
+            var r = GetFile_C(loader, ref cFile, name, type);
+            if (r != 0)
+            {
+                file = new LoaderFile();
+                return r;
+            }
+               
+            file = new LoaderFile
+            {
+                guid =cFile.guid,
+                guid_str = Marshal.PtrToStringAnsi(cFile.guid_str),
+                type =cFile.type,
+                type_str = Marshal.PtrToStringAnsi(cFile.type_str)
+            };
+            return r;
+        }
         public UInt32 GetNumberOfFilesOfType(String type)
         {
             return GetNumberOfFilesOfType_C(loader, type);

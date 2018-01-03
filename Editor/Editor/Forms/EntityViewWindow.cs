@@ -34,6 +34,10 @@ namespace Editor
             var addComponentEntry = new Forms.EntityFlowContainerObjects.AddComponentEntry(entityComponents,ent, wrapper);
           
         }
+        public void Clear()
+        {
+            entityComponents.Controls.Clear();
+        }
         private void entityComponents_ClientSizeChanged(object sender, EventArgs e)
         {
             Settings.Default.EntityFlowContWidth = entityComponents.ClientSize.Width - 6;

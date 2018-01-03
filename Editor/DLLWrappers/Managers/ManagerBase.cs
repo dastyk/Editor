@@ -53,9 +53,9 @@ namespace EngineImporter.Managers
 
             return ents;
         }
-        public long WriteComponent(EngineImporter.BinaryLoader_Wrapper loader, Entity ent, String name, String type)
+        public long WriteComponent(EngineImporter.BinaryLoader_Wrapper loader, Entity ent, String name)
         {
-           return  Manager_Base_WriteComponent_C(obj, loader.GetLoader(), ent, name, type);
+           return  Manager_Base_WriteComponent_C(obj, loader.GetLoader(), ent, name, "Scene");
         }
       
 

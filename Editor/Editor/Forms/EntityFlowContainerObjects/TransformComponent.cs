@@ -78,6 +78,7 @@ namespace Editor.Forms.EntityFlowContainerObjects
             pos.y = ToFloat(posY.Text);
             pos.z = ToFloat(posZ.Text);
             wrapper.managers.transformManager.SetPosition(entity, pos);
+            wrapper.Changed(Utilities.ChangeType.ENTITY);
         }
         private void scaleChanged(object sender, EventArgs e)
         {
@@ -86,6 +87,7 @@ namespace Editor.Forms.EntityFlowContainerObjects
             scale.y = ToFloat(scaleY.Text);
             scale.z = ToFloat(scaleZ.Text);
             wrapper.managers.transformManager.SetScale(entity, scale);
+            wrapper.Changed(Utilities.ChangeType.ENTITY);
         }
     }
 }

@@ -46,6 +46,13 @@ namespace Editor
             }
             
         }
+        public void RemoveFiles(String[] names, String type)
+        {
+            foreach (var n in names)
+            {
+                wrapper.binaryLoader.Destroy(n, type);
+            }
+        }
         private void ReadFiles()
         {
             List<LoaderFile> files;
