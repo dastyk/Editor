@@ -47,7 +47,7 @@ namespace Importer
         [DllImport("ResourceHandler.dll")]
         static extern UInt32 GetNumberOfFilesOfType_C(UIntPtr loader, String type);
         [DllImport("ResourceHandler.dll")]
-        static extern Int64 GetTotalSizeOfAllFiles_C(UIntPtr loader);
+        static extern UInt64 GetTotalSizeOfAllFiles_C(UIntPtr loader);
         [DllImport("ResourceHandler.dll")]
         static extern Int32 Exist_C(UIntPtr loader, UInt32 guid, UInt32 type);
         [DllImport("ResourceHandler.dll")]
@@ -80,6 +80,10 @@ namespace Importer
         static extern Int32 GetFile_C(UIntPtr loader, ref FILE_C file, String name, String type);
         [DllImport("ResourceHandler.dll")]
         static extern Int32 GetFilesOfType_C(UIntPtr loader, String type, IntPtr files, UInt32 numfiles);
+        [DllImport("ResourceHandler.dll")]
+        static extern float GetFragmentationRatio_C(UIntPtr loader);
+
+
 
         public BinaryLoader_Wrapper()
         {
@@ -136,7 +140,7 @@ namespace Importer
         {
             return GetNumberOfTypes_C(loader);
         }
-        public Int64 GetTotalSizeOfAllFiles()
+        public UInt64 GetTotalSizeOfAllFiles()
         {
             return GetTotalSizeOfAllFiles_C(loader);
         }
@@ -232,6 +236,11 @@ namespace Importer
                 });
             }
             return result;
+        }
+
+        public float GetFragmentationRatio()
+        {
+            return GetFragmentationRatio_C(loader);
         }
     }
 

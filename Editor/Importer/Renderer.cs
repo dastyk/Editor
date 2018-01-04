@@ -56,14 +56,14 @@ namespace Importer
         RendererInitializationInfo ii;
         public Renderer(System.Windows.Forms.Control window)
         {
-          
+
             ii.windowHandle = window.Handle;
             ii.windowState = WindowState.WINDOWED;
             ii.vsync = 1;
             ii.resolution = new Resolution { width = Convert.ToUInt32(window.Width), height = Convert.ToUInt32(window.Height) };
             ii.bufferCount = 2;
             obj = CreateRenderer(0, ii);
-            
+
         }
         public void Init()
         {
@@ -84,7 +84,7 @@ namespace Importer
             ii.windowHandle = window.Handle;
             ii.resolution = new Resolution { width = Convert.ToUInt32(window.Width), height = Convert.ToUInt32(window.Height) };
 
-           var r= Renderer_UpdateSettings_C(obj, ii);
+            var r = Renderer_UpdateSettings_C(obj, ii);
             if (r.errornr != 0)
             {
                 String msg = Marshal.PtrToStringAnsi(r.errorMSG);

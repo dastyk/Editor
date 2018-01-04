@@ -35,6 +35,7 @@
             this.addFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripItem_Remove = new System.Windows.Forms.ToolStripMenuItem();
+            this.UpdateUnused = new System.Windows.Forms.Timer(this.components);
             this.TreeViewMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -84,6 +85,10 @@
             this.toolStripItem_Remove.Text = "Remove";
             this.toolStripItem_Remove.Click += new System.EventHandler(this.toolStripItem_Remove_Click);
             // 
+            // UpdateUnused
+            // 
+            this.UpdateUnused.Tick += new System.EventHandler(this.UpdateUnused_Tick);
+            // 
             // FileRegisterWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -95,7 +100,7 @@
             this.Location = global::Editor.Properties.Settings.Default.FileRegPos;
             this.Name = "FileRegisterWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "FileRegister";
+            this.Text = "File Register";
             this.TreeViewMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -109,5 +114,6 @@
         private System.Windows.Forms.ToolStripMenuItem addFilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripItem_Remove;
+        private System.Windows.Forms.Timer UpdateUnused;
     }
 }

@@ -24,7 +24,7 @@ namespace Editor
 
             if (Settings.Default.EditorMainSize != null)
                 this.Size = Settings.Default.FileRegSize;
-
+            UpdateUnused.Start();
             this.wrapper = wrapper;
             ReadFiles();
         }
@@ -169,6 +169,15 @@ namespace Editor
                     sel.Parent.Nodes.Remove(sel);
                 }
             }
+        }
+
+        private void UpdateUnused_Tick(object sender, EventArgs e)
+        {
+            float ratio = wrapper.binaryLoader.GetFragmentationRatio();
+            this.Text = "File Register - Unused: " + ratio.ToString("000.00") + "% ";
+            UInt64 total = wrapper.binaryLoader.GetTotalSizeOfAllFiles();
+            UInt64 uns = Convert.ToUInt64( total * wrapper.binaryLoader.GetFragmentationRatio());
+            this.Text += uns.ToString() + "/" + total.ToString();
         }
     }
 }
