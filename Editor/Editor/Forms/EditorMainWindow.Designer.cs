@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditorMainWindow));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusLabelSaved = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStrip_File = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,8 +42,8 @@
             this.toolStripItem_EntityView = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsbtn_save = new System.Windows.Forms.ToolStripButton();
-            this.statusLabelSaved = new System.Windows.Forms.ToolStripStatusLabel();
             this.SavedTimer = new System.Windows.Forms.Timer(this.components);
+            this.renderWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -58,6 +59,13 @@
             this.statusStrip1.Size = new System.Drawing.Size(284, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip";
+            // 
+            // statusLabelSaved
+            // 
+            this.statusLabelSaved.Name = "statusLabelSaved";
+            this.statusLabelSaved.Size = new System.Drawing.Size(38, 17);
+            this.statusLabelSaved.Text = "Saved";
+            this.statusLabelSaved.Visible = false;
             // 
             // menuStrip1
             // 
@@ -90,7 +98,7 @@
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             // 
             // toolStrip_Windows
@@ -98,7 +106,8 @@
             this.toolStrip_Windows.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripItem_FileReg,
             this.toolStripItem_SceneView,
-            this.toolStripItem_EntityView});
+            this.toolStripItem_EntityView,
+            this.renderWindowToolStripMenuItem});
             this.toolStrip_Windows.Name = "toolStrip_Windows";
             this.toolStrip_Windows.Size = new System.Drawing.Size(68, 20);
             this.toolStrip_Windows.Text = "Windows";
@@ -107,7 +116,7 @@
             // 
             this.toolStripItem_FileReg.CheckOnClick = true;
             this.toolStripItem_FileReg.Name = "toolStripItem_FileReg";
-            this.toolStripItem_FileReg.Size = new System.Drawing.Size(137, 22);
+            this.toolStripItem_FileReg.Size = new System.Drawing.Size(158, 22);
             this.toolStripItem_FileReg.Text = "File Register";
             this.toolStripItem_FileReg.CheckedChanged += new System.EventHandler(this.toolStripItem_FileReg_CheckedChanged);
             // 
@@ -115,7 +124,7 @@
             // 
             this.toolStripItem_SceneView.CheckOnClick = true;
             this.toolStripItem_SceneView.Name = "toolStripItem_SceneView";
-            this.toolStripItem_SceneView.Size = new System.Drawing.Size(137, 22);
+            this.toolStripItem_SceneView.Size = new System.Drawing.Size(158, 22);
             this.toolStripItem_SceneView.Text = "Scene View";
             this.toolStripItem_SceneView.CheckedChanged += new System.EventHandler(this.toolStripItem_SceneView_CheckedChanged_1);
             // 
@@ -123,7 +132,7 @@
             // 
             this.toolStripItem_EntityView.CheckOnClick = true;
             this.toolStripItem_EntityView.Name = "toolStripItem_EntityView";
-            this.toolStripItem_EntityView.Size = new System.Drawing.Size(137, 22);
+            this.toolStripItem_EntityView.Size = new System.Drawing.Size(158, 22);
             this.toolStripItem_EntityView.Text = "Entity View";
             this.toolStripItem_EntityView.CheckedChanged += new System.EventHandler(this.toolStripItem_EntityView_CheckedChanged);
             // 
@@ -147,17 +156,18 @@
             this.tsbtn_save.Text = "tsbtn_save";
             this.tsbtn_save.Click += new System.EventHandler(this.tsbtn_save_Click);
             // 
-            // statusLabelSaved
-            // 
-            this.statusLabelSaved.Name = "statusLabelSaved";
-            this.statusLabelSaved.Size = new System.Drawing.Size(38, 17);
-            this.statusLabelSaved.Text = "Saved";
-            this.statusLabelSaved.Visible = false;
-            // 
             // SavedTimer
             // 
             this.SavedTimer.Interval = 2000;
             this.SavedTimer.Tick += new System.EventHandler(this.SavedTimer_Tick);
+            // 
+            // renderWindowToolStripMenuItem
+            // 
+            this.renderWindowToolStripMenuItem.CheckOnClick = true;
+            this.renderWindowToolStripMenuItem.Name = "renderWindowToolStripMenuItem";
+            this.renderWindowToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.renderWindowToolStripMenuItem.Text = "Render Window";
+            this.renderWindowToolStripMenuItem.CheckedChanged += new System.EventHandler(this.renderWindowToolStripMenuItem_CheckedChanged);
             // 
             // EditorMainWindow
             // 
@@ -202,6 +212,7 @@
         private System.Windows.Forms.ToolStripButton tsbtn_save;
         private System.Windows.Forms.ToolStripStatusLabel statusLabelSaved;
         private System.Windows.Forms.Timer SavedTimer;
+        private System.Windows.Forms.ToolStripMenuItem renderWindowToolStripMenuItem;
     }
 }
 

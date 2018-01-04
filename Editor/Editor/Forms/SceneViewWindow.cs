@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Editor.Properties;
-using EngineImporter;
-using EngineImporter.Managers;
+using Importer;
+using Importer.Managers;
 namespace Editor
 {
     using Entity = UInt32;

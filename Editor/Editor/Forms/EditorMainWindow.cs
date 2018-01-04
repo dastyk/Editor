@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Editor.Properties;
-using EngineImporter;
-using EngineImporter.Managers;
+using Importer;
+using Importer.Managers;
 
 namespace Editor
 {
@@ -60,12 +60,15 @@ namespace Editor
             wrapper.sceneViewWindow.MdiParent = this;
             wrapper.sceneViewWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(sceneViewWindowClosing);
 
+            wrapper.renderWindow.MdiParent = this;
 
             toolStripItem_FileReg.Checked = Settings.Default.FileRegVisible;
             toolStripItem_SceneView.Checked = Settings.Default.SceneViewVisible;
             toolStripItem_EntityView.Checked = Settings.Default.EntityViewVisible;
-          
-         
+            renderWindowToolStripMenuItem.Checked = Settings.Default.RenderWindowVis;
+
+
+
         }
         ~EditorMainWindow()
         {
@@ -90,6 +93,7 @@ namespace Editor
             Settings.Default.FileRegSize = wrapper.fileRegisterWindow.Size;
             Settings.Default.SceneViewSize = wrapper.sceneViewWindow.Size;
             Settings.Default.EntityViewSize = wrapper.entityViewWindow.Size;
+            Settings.Default.RenderWindowSize = wrapper.renderWindow.Size;
 
             Settings.Default.Save();
             e.Cancel = false;
@@ -112,7 +116,7 @@ namespace Editor
             Settings.Default.EntityViewVisible = wrapper.entityViewWindow.Visible = toolStripItem_EntityView.Checked;
             wrapper.entityViewWindow.Location = Settings.Default.EntityViewPos;
         }
-
+      
         private void Save()
         {
 
@@ -135,6 +139,12 @@ namespace Editor
         {
             statusLabelSaved.Visible = false;
             SavedTimer.Stop();
+        }
+
+        private void renderWindowToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.RenderWindowVis =  wrapper.renderWindow.Visible = renderWindowToolStripMenuItem.Checked;
+          
         }
     }
 }

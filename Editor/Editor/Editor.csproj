@@ -83,6 +83,12 @@
     <Compile Include="Forms\FileRegisterWindow.Designer.cs">
       <DependentUpon>FileRegisterWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\RenderWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\RenderWindow.Designer.cs">
+      <DependentUpon>RenderWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Forms\SceneViewWindow.cs">
@@ -116,6 +122,9 @@
     <EmbeddedResource Include="Forms\FileRegisterWindow.resx">
       <DependentUpon>FileRegisterWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\RenderWindow.resx">
+      <DependentUpon>RenderWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -145,9 +154,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DLLWrappers\EngineImporter.csproj">
-      <Project>{b2caa4ca-3133-41f7-b026-a8c52c98545f}</Project>
-      <Name>EngineImporter</Name>
+    <ProjectReference Include="..\Importer\Importer.csproj">
+      <Project>{e447bdf1-3c38-4e87-8af0-e9e466ac86b4}</Project>
+      <Name>Importer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

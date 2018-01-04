@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EngineImporter;
-using EngineImporter.Managers;
+using Importer;
+using Importer.Managers;
 using System.Windows.Forms;
 namespace Editor.Utilities
 {
@@ -23,6 +23,8 @@ namespace Editor.Utilities
         public FileRegisterWindow fileRegisterWindow;
         public SceneViewWindow sceneViewWindow;
         public EntityViewWindow entityViewWindow;
+        public Forms.RenderWindow renderWindow;
+       
         public ResourceHandler resourceHandler;
         public Collection managers = new Collection();
         public event EditorChangeEventHandler ChangeEvent;
@@ -37,7 +39,8 @@ namespace Editor.Utilities
 
             }
             resourceHandler = new ResourceHandler(binaryLoader);
-
+            renderWindow = new Forms.RenderWindow(this);
+           
             managers.entityManager = new EntityManager();
             managers.transformManager = new TransformManager(managers.entityManager);
             managers.sceneManager = new SceneManager(managers.entityManager, managers.transformManager);

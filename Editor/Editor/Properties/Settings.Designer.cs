@@ -178,5 +178,41 @@ namespace Editor.Properties {
                 this["EntityFlowContWidth"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
+        public global::System.Drawing.Point RenderWindowPos {
+            get {
+                return ((global::System.Drawing.Point)(this["RenderWindowPos"]));
+            }
+            set {
+                this["RenderWindowPos"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("300, 300")]
+        public global::System.Drawing.Size RenderWindowSize {
+            get {
+                return ((global::System.Drawing.Size)(this["RenderWindowSize"]));
+            }
+            set {
+                this["RenderWindowSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RenderWindowVis {
+            get {
+                return ((bool)(this["RenderWindowVis"]));
+            }
+            set {
+                this["RenderWindowVis"] = value;
+            }
+        }
     }
 }

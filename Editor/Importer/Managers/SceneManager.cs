@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
 
-namespace EngineImporter.Managers
+namespace Importer.Managers
 {
     using Entity = UInt32;
     public class EntityInfo

@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text;
 using System.IO;
 using System.Collections.Generic;
+
 namespace DLLTest
 {
     [TestClass]
@@ -17,8 +18,8 @@ namespace DLLTest
             File.Delete("test.dat");
             {
                 {
-                    EngineImporter.BinaryLoader_Wrapper bl = new EngineImporter.BinaryLoader_Wrapper();
-                    long result = bl.InitLoader("test.dat", EngineImporter.LoaderMode.EDIT);
+                    Importer.BinaryLoader_Wrapper bl = new Importer.BinaryLoader_Wrapper();
+                    long result = bl.InitLoader("test.dat", Importer.LoaderMode.EDIT);
                     Assert.IsTrue(result == 0, "Could not init Loader");
 
                     string file = "Test File";
@@ -53,7 +54,7 @@ namespace DLLTest
 
                  
 
-                    List<EngineImporter.LoaderFile> files;
+                    List<Importer.LoaderFile> files;
                     result = bl.GetFiles(out files);
                     Assert.IsTrue(result == 0, "Could not get all files");
                     Assert.IsTrue(files.Count == 2, "Files count not 2");
@@ -79,8 +80,8 @@ namespace DLLTest
                     bl.Shutdown();
                 }
                 {
-                    EngineImporter.BinaryLoader_Wrapper bl = new EngineImporter.BinaryLoader_Wrapper();
-                    var result = bl.InitLoader("test.dat", EngineImporter.LoaderMode.EDIT);
+                    Importer.BinaryLoader_Wrapper bl = new Importer.BinaryLoader_Wrapper();
+                    var result = bl.InitLoader("test.dat", Importer.LoaderMode.EDIT);
                     Assert.IsTrue(result == 0, "Could not reinit");
 
                     Assert.IsTrue(bl.GetNumberOfFiles() == 2, "No files after reinit");

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
-namespace EngineImporter.Managers
+namespace Importer.Managers
 {
     using Entity = UInt32;
     public class ManagerBase : MemoryBase
@@ -53,7 +53,7 @@ namespace EngineImporter.Managers
 
             return ents;
         }
-        public long WriteComponent(EngineImporter.BinaryLoader_Wrapper loader, Entity ent, String name)
+        public long WriteComponent(Importer.BinaryLoader_Wrapper loader, Entity ent, String name)
         {
            return  Manager_Base_WriteComponent_C(obj, loader.GetLoader(), ent, name, "Scene");
         }
