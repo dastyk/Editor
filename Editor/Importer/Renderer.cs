@@ -53,18 +53,39 @@ namespace Importer
         static extern Graphics_Error Renderer_UpdateSettings_C(UIntPtr obj, RendererInitializationInfo ii);
         [DllImport("Graphics.dll")]
         static extern RendererInitializationInfo Renderer_GetSettings_C(UIntPtr obj);
-
+        RendererInitializationInfo ii;
         public Renderer(System.Windows.Forms.Control window)
         {
-            RendererInitializationInfo ii;
+          
             ii.windowHandle = window.Handle;
             ii.windowState = WindowState.WINDOWED;
             ii.vsync = 1;
             ii.resolution = new Resolution { width = Convert.ToUInt32(window.Width), height = Convert.ToUInt32(window.Height) };
             ii.bufferCount = 2;
             obj = CreateRenderer(0, ii);
+            
+        }
+        public void Init()
+        {
             var r = Renderer_Initialize_C(obj);
-            if(r.errornr != 0)
+            if (r.errornr != 0)
+            {
+                String msg = Marshal.PtrToStringAnsi(r.errorMSG);
+                String file = Marshal.PtrToStringAnsi(r.file);
+                MessageBox.Show("Could not create renderer\nError: "
+                    + r.errornr.ToString() + ": " + msg + "\nFile: "
+                    + file + "\nLine :" + r.line.ToString()
+                    , "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        public void UpdateSettings(System.Windows.Forms.Control window)
+        {
+            ii.windowHandle = window.Handle;
+            ii.resolution = new Resolution { width = Convert.ToUInt32(window.Width), height = Convert.ToUInt32(window.Height) };
+
+           var r= Renderer_UpdateSettings_C(obj, ii);
+            if (r.errornr != 0)
             {
                 String msg = Marshal.PtrToStringAnsi(r.errorMSG);
                 String file = Marshal.PtrToStringAnsi(r.file);

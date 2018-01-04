@@ -40,7 +40,13 @@ namespace Editor
             toolStripItem_EntityView.Checked = false;
             e.Cancel = true;
         }
-
+        void renderWindowClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.MdiFormClosing)
+                return;
+            renderWindowToolStripMenuItem.Checked = false;
+            e.Cancel = true;
+        }
         public EditorMainWindow()
         {
             
@@ -61,6 +67,7 @@ namespace Editor
             wrapper.sceneViewWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(sceneViewWindowClosing);
 
             wrapper.renderWindow.MdiParent = this;
+            wrapper.renderWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(renderWindowClosing);
 
             toolStripItem_FileReg.Checked = Settings.Default.FileRegVisible;
             toolStripItem_SceneView.Checked = Settings.Default.SceneViewVisible;
@@ -144,7 +151,8 @@ namespace Editor
         private void renderWindowToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             Settings.Default.RenderWindowVis =  wrapper.renderWindow.Visible = renderWindowToolStripMenuItem.Checked;
-          
+            wrapper.renderWindow.Location = Settings.Default.RenderWindowPos;
+            wrapper.renderWindow.ToggleRender();
         }
     }
 }

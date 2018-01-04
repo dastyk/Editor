@@ -28,23 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.panel1 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
+            // 
+            // panel1
+            // 
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(524, 261);
+            this.panel1.TabIndex = 0;
             // 
             // RenderWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(524, 261);
+            this.Controls.Add(this.panel1);
             this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::Editor.Properties.Settings.Default, "RenderWindowPos", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Location = global::Editor.Properties.Settings.Default.RenderWindowPos;
             this.Name = "RenderWindow";
-            this.Text = "RenderWindow";
-            this.VisibleChanged += new System.EventHandler(this.RenderWindow_VisibleChanged);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.Text = "Render";
+            this.SizeChanged += new System.EventHandler(this.RenderWindow_SizeChanged);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Panel panel1;
     }
 }
