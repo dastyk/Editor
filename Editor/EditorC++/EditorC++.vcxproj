@@ -156,15 +156,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="SceneViewWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainWindow.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="SceneViewWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SceneViewWindow.resx">
+      <DependentUpon>SceneViewWindow.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

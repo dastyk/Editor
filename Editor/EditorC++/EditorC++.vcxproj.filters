@@ -5,19 +5,29 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="MainWindow">
+    <Filter Include="SceneViewWindow">
+      <UniqueIdentifier>{9949365f-5738-4e8b-a545-512632826607}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Forms">
+      <UniqueIdentifier>{cf6bb159-b3ae-490d-9c76-d75b30e8f6fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Forms\MainWindow">
       <UniqueIdentifier>{9e23fb88-8b6a-4019-8db3-af23ed85c70f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainWindow.h">
-      <Filter>MainWindow</Filter>
+      <Filter>Forms\MainWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneViewWindow.h">
+      <Filter>SceneViewWindow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainWindow.cpp">
-      <Filter>MainWindow</Filter>
+      <Filter>Forms\MainWindow</Filter>
     </ClCompile>
+    <ClCompile Include="SceneViewWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainWindow.resx">
