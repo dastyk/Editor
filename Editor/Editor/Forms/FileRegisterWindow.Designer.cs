@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileRegisterWindow));
             this.fileTree = new System.Windows.Forms.TreeView();
             this.TreeViewMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TreeViewMenuAddFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -36,17 +37,18 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripItem_Remove = new System.Windows.Forms.ToolStripMenuItem();
             this.UpdateUnused = new System.Windows.Forms.Timer(this.components);
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.defragButton = new System.Windows.Forms.ToolStripButton();
             this.TreeViewMenu.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // fileTree
             // 
-            this.fileTree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.fileTree.Location = new System.Drawing.Point(-1, 0);
+            this.fileTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fileTree.Location = new System.Drawing.Point(0, 25);
             this.fileTree.Name = "fileTree";
-            this.fileTree.Size = new System.Drawing.Size(284, 259);
+            this.fileTree.Size = new System.Drawing.Size(284, 236);
             this.fileTree.TabIndex = 0;
             this.fileTree.MouseDown += new System.Windows.Forms.MouseEventHandler(this.fileTree_MouseDown);
             // 
@@ -89,12 +91,33 @@
             // 
             this.UpdateUnused.Tick += new System.EventHandler(this.UpdateUnused_Tick);
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.defragButton});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(284, 25);
+            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // defragButton
+            // 
+            this.defragButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.defragButton.Image = ((System.Drawing.Image)(resources.GetObject("defragButton.Image")));
+            this.defragButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.defragButton.Name = "defragButton";
+            this.defragButton.Size = new System.Drawing.Size(23, 22);
+            this.defragButton.Text = "Defrag";
+            this.defragButton.Click += new System.EventHandler(this.defragButton_Click);
+            // 
             // FileRegisterWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.fileTree);
+            this.Controls.Add(this.toolStrip1);
             this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::Editor.Properties.Settings.Default, "FileRegPos", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Location = global::Editor.Properties.Settings.Default.FileRegPos;
@@ -102,7 +125,10 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "File Register";
             this.TreeViewMenu.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -115,5 +141,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripItem_Remove;
         private System.Windows.Forms.Timer UpdateUnused;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton defragButton;
     }
 }

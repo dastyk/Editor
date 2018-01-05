@@ -78,12 +78,11 @@ namespace Editor
 
             List<LoaderFile> scenes;
             var result = wrapper.binaryLoader.GetFilesOfType("Scene", out scenes);
-            //if(result != 0)
-            //{
-            //    MessageBox.Show("Error when fetching scenes from file system", "Error: " + result.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
-            //else
-            if (result == 0)
+           if(result.IsError())
+            {
+                result.ShowError(MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else
             {
                 List<LoaderFile> cleared = new List<LoaderFile>(scenes);
                 foreach (LoaderFile file in scenes)
@@ -204,13 +203,14 @@ namespace Editor
                     wrapper.managers.sceneManager.Create(ent, name);
                     wrapper.managers.sceneManager.WriteComponent(wrapper.binaryLoader, ent, name);
                     LoaderFile newFile;
+                    wrapper.managers.entityManager.DestroyNow(ent);
                     var rr = wrapper.binaryLoader.GetFile(out newFile, name, "Scene");
-                    if (rr != 0)
+                    if(rr.IsError())
                     {
-                        MessageBox.Show("Could not get file " + name, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        wrapper.managers.entityManager.DestroyNow(ent);
+                        rr.ShowError(MessageBoxButtons.OK, MessageBoxIcon.Warning, "File: " + name);
                         return;
                     }
+                   
                     node.Tag = newFile;
                     node.Text = name;
                     node.Name = name;
@@ -282,7 +282,7 @@ namespace Editor
             newNode.Text = node.Text + "  ";
             newNode.Name = node.Name;
 
-            // wrapper.managers.entityManager.DestroyAll(true);
+            wrapper.managers.entityManager.DestroyAll(true);
            
             newNode.Tag = entityEditing = wrapper.managers.entityManager.Create();
             var lf = (LoaderFile)node.Tag;

@@ -32,11 +32,12 @@ namespace Editor
         {
             List<LoaderFile> files;
             var r = wrapper.binaryLoader.GetFilesOfType(type, out files);
-            if (r != 0)
+            if(r.IsError())
             {
-                MessageBox.Show("Could not get files of type: " + type, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                r.ShowError(MessageBoxButtons.OK, MessageBoxIcon.Warning, "Type: " + type);
                 return;
             }
+          
             foreach(LoaderFile f in files)
             {
                 if (Array.Find(names, n => n == f.guid_str) == null)
@@ -57,7 +58,9 @@ namespace Editor
         {
             List<LoaderFile> files;
             var r = wrapper.binaryLoader.GetFiles(out files);
-            if (r == 0)
+            if (r.IsError())
+                r.ShowError(MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
             {
                 TreeNode root = new TreeNode("Root");
                 root.Name = "Root";
@@ -140,11 +143,12 @@ namespace Editor
                 fileNode.Name = addFileWindow.name;
                
                 var cresult = wrapper.binaryLoader.CreateFromFile(addFileWindow.file, addFileWindow.name, addFileWindow.type);
-                if(cresult != 0)
+                if(cresult.IsError())
                 {
-                    MessageBox.Show("Could not add file", "Error: " + cresult.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    cresult.ShowError(MessageBoxButtons.OK, MessageBoxIcon.Warning, "File: " + addFileWindow.name);
                     return;
                 }
+               
                 typeNodes.Add(fileNode);
                 typeNode.Expand();
                 fileTree.SelectedNode = fileNode;
@@ -161,11 +165,12 @@ namespace Editor
                 if(r == DialogResult.Yes)
                 {
                     var result = wrapper.binaryLoader.Destroy(sel.Name, sel.Parent.Name);
-                    if(result != 0)
+                    if(result.IsError())
                     {
-                        MessageBox.Show("Could not delete file", "Error: " + result.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        result.ShowError(MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
+                   
                     sel.Parent.Nodes.Remove(sel);
                 }
             }
@@ -174,10 +179,17 @@ namespace Editor
         private void UpdateUnused_Tick(object sender, EventArgs e)
         {
             float ratio = wrapper.binaryLoader.GetFragmentationRatio();
-            this.Text = "File Register - Unused: " + ratio.ToString("000.00") + "% ";
+            this.Text = "File Register - Unused: " + (ratio*100).ToString("000.00") + "% ";
             UInt64 total = wrapper.binaryLoader.GetTotalSizeOfAllFiles();
-            UInt64 uns = Convert.ToUInt64( total * wrapper.binaryLoader.GetFragmentationRatio());
+            UInt64 uns = Convert.ToUInt64( total * ratio);
             this.Text += uns.ToString() + "/" + total.ToString();
+        }
+
+        private void defragButton_Click(object sender, EventArgs e)
+        {
+            UpdateUnused.Stop();
+            wrapper.binaryLoader.Defrag();
+            UpdateUnused.Start();
         }
     }
 }

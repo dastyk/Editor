@@ -33,10 +33,10 @@ namespace Editor.Utilities
         {
             binaryLoader = new BinaryLoader_Wrapper();
             var r = binaryLoader.InitLoader("data.dat", LoaderMode.EDIT);
-            if (r != 0)
-            {
-                MessageBox.Show("Could not init the binary file system", "Error: " + r.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+            if (r.IsError())
+            { 
+                r.ShowError(MessageBoxButtons.OK, MessageBoxIcon.Warning, "File: data.dat");
+                
             }
             resourceHandler = new ResourceHandler(binaryLoader);
             renderWindow = new Forms.RenderWindow(this);
@@ -72,9 +72,9 @@ namespace Editor.Utilities
             {
                 var ent = scenes[i];
                 var r = managers.sceneManager.WriteComponent(binaryLoader, ent, managers.sceneManager.GetNameOfScene(ent));
-                if (r != 0)
+                if(r.IsError())
                 {
-                    MessageBox.Show("Could not write scene component", "Error: " + r.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    r.ShowError(MessageBoxButtons.OK, MessageBoxIcon.Warning, "When writing scene " + managers.sceneManager.GetNameOfScene(ent));
                 }
              
             }
