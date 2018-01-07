@@ -188,7 +188,11 @@ namespace Editor
         private void defragButton_Click(object sender, EventArgs e)
         {
             UpdateUnused.Stop();
-            wrapper.binaryLoader.Defrag();
+           var r = wrapper.binaryLoader.Defrag();
+            if(r.IsError())
+            {
+                r.ShowError(MessageBoxButtons.OK, MessageBoxIcon.Error, "When defragging");
+            }
             UpdateUnused.Start();
         }
     }
