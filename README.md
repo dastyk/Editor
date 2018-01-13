@@ -12,6 +12,6 @@ All engine functionallity is invoked from dlls created in C++.
 * Resource Handler
 
 # Build
-If using visual studio (2017) just get each dependency so that they are located in the same folder then you should only need to press build.
+If using Visual Studio (2017) just get each dependency so that they are located in the same folder then you should only need to press build.
 
-If not using visual studio i wish you the best of luck.
+If not using Visual Studio I wish you the best of luck.
