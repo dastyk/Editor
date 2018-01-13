@@ -5,8 +5,13 @@ A C# game editor.
 As of now it contains a scene window, entity view, file register, and a render window.
 All engine functionallity is invoked from dlls created in C++.
 
-This project has these dependencies, including the dependencies for those as well.
+# Dependencies
 
 * Renderer
 * Entity Component System
 * Resource Handler
+
+# Build
+If using visual studio (2017) just get each dependency so that they are located in the same folder then you should only need to press build.
+
+If not using visual studio i wish you the best of luck.
