@@ -235,7 +235,7 @@ namespace Editor
                     node = AddSceneNodeToScene(parentNode, node);
 
                 }
-                wrapper.fileRegisterWindow.Reset();
+             
                 scenesTree.SelectedNode = node;
                 if (parentNode != null)
                     parentNode.Expand();
@@ -246,7 +246,7 @@ namespace Editor
                 }
                 else
                 {
-                    wrapper.Changed(Utilities.ChangeType.ENTITY);
+                    wrapper.Changed(Utilities.ChangeType.ENTITY | Utilities.ChangeType.FILE);
                 }
 
 

@@ -24,11 +24,12 @@ namespace Editor.Utilities
         public SceneViewWindow sceneViewWindow;
         public EntityViewWindow entityViewWindow;
         public Forms.RenderWindow renderWindow;
-       
+        public ResourceHandlerWindow resourceHandlerWindow;
         public ResourceHandler resourceHandler;
         public Collection managers = new Collection();
         public event EditorChangeEventHandler ChangeEvent;
         public event EditorSavedEventHandler SavedEvent;
+        
         public EditorWrapper()
         {
             binaryLoader = new BinaryLoader_Wrapper();
@@ -50,6 +51,8 @@ namespace Editor.Utilities
             entityViewWindow = new EntityViewWindow(this);
 
             sceneViewWindow = new SceneViewWindow(this);
+
+            resourceHandlerWindow = new ResourceHandlerWindow(this);
 
             SavedEvent();
         }

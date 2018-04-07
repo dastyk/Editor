@@ -47,6 +47,13 @@ namespace Editor
             renderWindowToolStripMenuItem.Checked = false;
             e.Cancel = true;
         }
+        void rhWindowClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.MdiFormClosing)
+                return;
+            resourceHandlerToolStripMenuItem.Checked = false;
+            e.Cancel = true;
+        }
         public EditorMainWindow()
         {
             
@@ -69,11 +76,14 @@ namespace Editor
             wrapper.renderWindow.MdiParent = this;
             wrapper.renderWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(renderWindowClosing);
 
+            wrapper.resourceHandlerWindow.MdiParent = this;
+            wrapper.resourceHandlerWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(rhWindowClosing);
+
             toolStripItem_FileReg.Checked = Settings.Default.FileRegVisible;
             toolStripItem_SceneView.Checked = Settings.Default.SceneViewVisible;
             toolStripItem_EntityView.Checked = Settings.Default.EntityViewVisible;
             renderWindowToolStripMenuItem.Checked = Settings.Default.RenderWindowVis;
-
+            resourceHandlerToolStripMenuItem.Checked = Settings.Default.RHWVis;
 
 
         }
@@ -101,6 +111,7 @@ namespace Editor
             Settings.Default.SceneViewSize = wrapper.sceneViewWindow.Size;
             Settings.Default.EntityViewSize = wrapper.entityViewWindow.Size;
             Settings.Default.RenderWindowSize = wrapper.renderWindow.Size;
+            Settings.Default.RHWSize = wrapper.resourceHandlerWindow.Size;
 
             Settings.Default.Save();
             e.Cancel = false;
@@ -153,6 +164,12 @@ namespace Editor
             Settings.Default.RenderWindowVis =  wrapper.renderWindow.Visible = renderWindowToolStripMenuItem.Checked;
             wrapper.renderWindow.Location = Settings.Default.RenderWindowPos;
             wrapper.renderWindow.ToggleRender();
+        }
+
+        private void resourceHandlerToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.RHWVis = wrapper.resourceHandlerWindow.Visible = resourceHandlerToolStripMenuItem.Checked;
+            wrapper.resourceHandlerWindow.Location = Settings.Default.RHWPos;
         }
     }
 }

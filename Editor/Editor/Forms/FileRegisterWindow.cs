@@ -26,6 +26,7 @@ namespace Editor
                 this.Size = Settings.Default.FileRegSize;
             UpdateUnused.Start();
             this.wrapper = wrapper;
+            wrapper.ChangeEvent += new Utilities.EditorChangeEventHandler(Changed);
             ReadFiles();
         }
         public void RemoveFilesThatDoNotMatch(String[] names, String type)
@@ -106,7 +107,14 @@ namespace Editor
                 TreeViewMenu.Show(new Point(Cursor.Position.X, Cursor.Position.Y));
             }
         }
+        private void Changed(Utilities.ChangeType change)
+        {
+            if (change.HasFlag(Utilities.ChangeType.FILE))
+            {
+                Reset();
+            }
 
+        }
         private void TreeViewMenuAddFile_Click(object sender, EventArgs e)
         {
             AddFileWindow addFileWindow = new AddFileWindow();

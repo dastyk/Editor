@@ -214,5 +214,53 @@ namespace Editor.Properties {
                 this["RenderWindowVis"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 49")]
+        public global::System.Drawing.Point RHWPos {
+            get {
+                return ((global::System.Drawing.Point)(this["RHWPos"]));
+            }
+            set {
+                this["RHWPos"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("600, 352")]
+        public global::System.Drawing.Size RHWSize {
+            get {
+                return ((global::System.Drawing.Size)(this["RHWSize"]));
+            }
+            set {
+                this["RHWSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("162")]
+        public int RHWSplit {
+            get {
+                return ((int)(this["RHWSplit"]));
+            }
+            set {
+                this["RHWSplit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RHWVis {
+            get {
+                return ((bool)(this["RHWVis"]));
+            }
+            set {
+                this["RHWVis"] = value;
+            }
+        }
     }
 }
