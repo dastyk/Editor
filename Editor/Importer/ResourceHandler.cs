@@ -5,6 +5,11 @@ using System.Runtime.InteropServices;
 
 namespace Importer
 {
+    public enum MemoryType : byte
+    {
+        RAM,
+        VRAM
+    }
     public class ResourceHandler
     {
         UIntPtr obj;
@@ -19,7 +24,9 @@ namespace Importer
         static extern void DestroyThreadPool(UIntPtr tp);
         [DllImport("ResourceHandler.dll")]
         static extern UIntPtr DestroyResourceHandler(UIntPtr rh);
-       
+        [DllImport("ResourceHandler.dll")]
+        static extern File_Error_C ResourceHandler_CreateType(UIntPtr rh, String type, MemoryType memoryType, String passthrough);
+
         public ResourceHandler(BinaryLoader_Wrapper l)
         {
             loader = l;
@@ -32,6 +39,10 @@ namespace Importer
             DestroyThreadPool(threadPool);
             threadPool = CreateThreadPool(4);
             obj = CreateResourceHandler(loader.GetLoader(), threadPool);
+        }
+        public File_Error CreateType(String type, MemoryType memoryType, String passtrough)
+        {
+            return ResourceHandler_CreateType(obj, type, memoryType, passtrough);
         }
         ~ResourceHandler()
         {
