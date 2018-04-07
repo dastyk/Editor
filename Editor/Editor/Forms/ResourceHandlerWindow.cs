@@ -15,15 +15,16 @@ namespace Editor
     {
         class Type
         {
-            public Type(string name, bool pt = false, LoaderFile file = new LoaderFile())
+            public Type(string name, bool pt = false)
             {
                 this.name = name;
+
                 this.passThrough = pt;
-                this.file = file;
             }
             public string name;
             public bool passThrough;
-            public LoaderFile file;
+            public MemoryType memoryType;
+
             public override string ToString()
             {
                 return name;
@@ -44,7 +45,7 @@ namespace Editor
             wrapper.binaryLoader.GetFilesOfType("Passthrough", out files);
             foreach(LoaderFile f in files)
             {
-                var nt = new Type(f.guid_str, true, f);
+                var nt = new Type(f.guid_str, true);
                 handledTypes.Items.Add(nt);
             }
 
@@ -88,11 +89,11 @@ namespace Editor
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                var file = openFileDialog1.FileName;
-                wrapper.binaryLoader.CreateFromFile(file, typeName.Text, "Passthrough");
                 var c = handledTypes.SelectedItem as Type;
-                wrapper.binaryLoader.GetFile(out c.file, c.name, "Passthrough");
-                c.passThrough = true;
+                var file = openFileDialog1.FileName;
+                var r = wrapper.resourceHandler.CreateType(c.name, c.memoryType, file);
+                if (r.IsError())
+                    r.ShowError(MessageBoxButtons.OK, MessageBoxIcon.Error);
                 wrapper.Changed(Utilities.ChangeType.FILE);
             }
         }
