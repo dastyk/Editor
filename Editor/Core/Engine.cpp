@@ -1,6 +1,6 @@
 #include "Engine.h"
 #include <Core\EngineException.h>
-#include <Utilz\ThreadPool.h>
+#include <ThreadPool.h>
 namespace Core
 {
 
@@ -40,7 +40,7 @@ namespace Core
 	{
 		if (!subSystems.threadPool)
 		{
-			subSystems.threadPool = new Utilz::ThreadPool(4);
+			subSystems.threadPool = new Utilities::ThreadPool(4);
 			if (!subSystems.threadPool)
 				THROWERROR("Could not create threadpool", -1);
 		}
@@ -50,8 +50,8 @@ namespace Core
 			if (!subSystems.fileSystem)
 				THROWERROR("Could not create filesystem", -1);
 			auto result = subSystems.fileSystem->Init("data.dat", ResourceHandler::Mode::READ);
-			if (result < 0)
-				THROWERROR("Could not init filesystem", result);
+			if (result.errornr < 0)
+				THROWERROR("Could not init filesystem", result.errornr);
 		}
 		if (!subSystems.resourceHandler)
 		{
@@ -71,7 +71,7 @@ namespace Core
 
 		if (!managers.transformManagers)
 		{
-			ECS::TransformManagerInitializationInfo ii;
+			ECS::TransformManager_InitializationInfo ii;
 			ii.entityManager = managers.entityManager;
 			managers.transformManagers = TransformManager_CreateTransformManager_C(ii);
 			if (!managers.transformManagers)
@@ -79,7 +79,7 @@ namespace Core
 		}
 		if (!managers.sceneManager)
 		{
-			ECS::SceneManagerInitializationInfo ii;
+			ECS::SceneManager_InitializationInfo ii;
 			ii.entityManager = managers.entityManager;
 			ii.transformManager = managers.transformManagers;
 			managers.sceneManager = SceneManager_CreateSceneManager_C(ii);
@@ -105,8 +105,8 @@ namespace Core
 		if (subSystems.fileSystem)
 		{
 			auto res = subSystems.fileSystem->Shutdown();
-			if (res < 0)
-				THROWERROR("Could not shutdown file system", res);
+			if (res.errornr < 0)
+				THROWERROR("Could not shutdown file system", res.errornr);
 			delete subSystems.fileSystem;
 		}
 	}

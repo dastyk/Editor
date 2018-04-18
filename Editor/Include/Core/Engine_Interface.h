@@ -16,7 +16,7 @@ struct SubSystems
 {
 	ResourceHandler::FileSystem_Interface*		fileSystem				= nullptr;
 	ResourceHandler::ResourceHandler_Interface*	resourceHandler			= nullptr;
-	Utilz::ThreadPool*							threadPool				= nullptr;
+	Utilities::ThreadPool*						threadPool				= nullptr;
 };
 
 struct EngineInitializationInfo
