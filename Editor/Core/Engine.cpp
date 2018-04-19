@@ -1,5 +1,4 @@
 #include "Engine.h"
-#include <Core\EngineException.h>
 #include <ThreadPool.h>
 namespace Core
 {
@@ -13,7 +12,7 @@ namespace Core
 			InitSubSystems();
 			InitManagers();
 		}
-		catch (const Engine_Exception& e)
+		catch (UERROR e)
 		{
 			Shutdown();
 			throw e;
@@ -42,22 +41,22 @@ namespace Core
 		{
 			subSystems.threadPool = new Utilities::ThreadPool(4);
 			if (!subSystems.threadPool)
-				THROWERROR("Could not create threadpool", -1);
+				THROW_ERROR("Could not create threadpool");
 		}
 		if (!subSystems.fileSystem)
 		{
 			subSystems.fileSystem = CreateFileSystem(ResourceHandler::FileSystemType::Binary);
 			if (!subSystems.fileSystem)
-				THROWERROR("Could not create filesystem", -1);
+				THROW_ERROR("Could not create filesystem");
 			auto result = subSystems.fileSystem->Init("data.dat", ResourceHandler::Mode::READ);
-			if (result.errornr < 0)
-				THROWERROR("Could not init filesystem", result.errornr);
+			if (result.hash != "Success"_hash)
+				THROW_ERROR("Could not init filesystem");
 		}
 		if (!subSystems.resourceHandler)
 		{
 			subSystems.resourceHandler = CreateResourceHandler(subSystems.fileSystem, subSystems.threadPool);
 			if (!subSystems.resourceHandler)
-				THROWERROR("Could not create resource handler", -1);
+				THROW_ERROR("Could not create resource handler");
 		}
 	}
 	void Engine::InitManagers()
@@ -66,7 +65,7 @@ namespace Core
 		{
 			managers.entityManager = EntityManager_CreateEntityManager_C();
 			if (!managers.entityManager)
-				THROWERROR("Could not create entity manager", -1);
+				THROW_ERROR("Could not create entity manager");
 		}
 
 		if (!managers.transformManagers)
@@ -75,7 +74,7 @@ namespace Core
 			ii.entityManager = managers.entityManager;
 			managers.transformManagers = TransformManager_CreateTransformManager_C(ii);
 			if (!managers.transformManagers)
-				THROWERROR("Could not create entity manager", -1);
+				THROW_ERROR("Could not create entity manager");
 		}
 		if (!managers.sceneManager)
 		{
@@ -84,7 +83,7 @@ namespace Core
 			ii.transformManager = managers.transformManagers;
 			managers.sceneManager = SceneManager_CreateSceneManager_C(ii);
 			if (!managers.sceneManager)
-				THROWERROR("Could not create scene manager", -1);
+				THROW_ERROR("Could not create scene manager");
 		}
 	}
 	void Engine::DestroyManagers()
@@ -105,8 +104,8 @@ namespace Core
 		if (subSystems.fileSystem)
 		{
 			auto res = subSystems.fileSystem->Shutdown();
-			if (res.errornr < 0)
-				THROWERROR("Could not shutdown file system", res.errornr);
+			if (res.hash != "Success"_hash)
+				throw res;
 			delete subSystems.fileSystem;
 		}
 	}

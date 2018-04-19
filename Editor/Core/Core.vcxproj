@@ -23,7 +23,6 @@
     <ClCompile Include="Engine_Interface.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Include\Core\EngineException.h" />
     <ClInclude Include="..\Include\Core\Engine_Interface.h" />
     <ClInclude Include="..\Include\DLLExport.h" />
     <ClInclude Include="Engine.h" />

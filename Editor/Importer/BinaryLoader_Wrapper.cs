@@ -23,9 +23,9 @@ namespace Importer
     public class File_Error
     {
         public String errorMSG;
-        public Int32 errornr;
+        public UInt32 errornr;
         public String file;
-        public Int32 line;
+        public UInt32 line;
         public bool IsError()
         {
             return errornr < 0;
@@ -41,9 +41,9 @@ namespace Importer
     struct File_Error_C
     {
         public IntPtr errorMSG;
-        public Int32 errornr;
+        public UInt32 errornr;
         public IntPtr file;
-        public Int32 line;
+        public UInt32 line;
         public static implicit operator File_Error(File_Error_C o)  // implicit digit to byte conversion operator
         {
             var fe = new File_Error
@@ -221,7 +221,7 @@ namespace Importer
             FILE_C[] files = new FILE_C[numFiles];
             var result = GetFiles_C(loader, Marshal.UnsafeAddrOfPinnedArrayElement(files, 0), numFiles);
             file_list = new List<LoaderFile>();
-            if (result.errornr != 0)
+            if (result.errornr != 469503388u) // 469503388u == "Success"_hash
                 return result;
             for (UInt32 i = 0; i < numFiles; i++)
             {

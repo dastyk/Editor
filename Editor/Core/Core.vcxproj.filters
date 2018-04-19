@@ -25,6 +25,5 @@
     <ClInclude Include="Engine.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\Core\EngineException.h" />
   </ItemGroup>
 </Project>
