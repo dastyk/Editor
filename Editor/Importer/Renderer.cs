@@ -9,13 +9,6 @@ namespace Importer
 {
    public class Renderer
     {
-         struct Graphics_Error
-        {
-           public IntPtr errorMSG;
-           public Int32 errornr;
-           public IntPtr file;
-            public Int32 line;
-        };
         enum WindowState : byte
         {
             WINDOWED,
@@ -41,16 +34,16 @@ namespace Importer
         [DllImport("Graphics.dll")]
         static extern UIntPtr CreateRenderer(uint type, RendererInitializationInfo ii);
         [DllImport("Graphics.dll")]
-        static extern Graphics_Error Renderer_Initialize_C(UIntPtr obj);
+        static extern Error_C Renderer_Initialize_C(UIntPtr obj);
         [DllImport("Graphics.dll")]
         static extern void Renderer_Shutdown_C(UIntPtr obj);
          [DllImport("Graphics.dll")]
         static extern void Renderer_Pause_C(UIntPtr obj);
         [DllImport("Graphics.dll")]
-        static extern Graphics_Error Renderer_Start_C(UIntPtr obj);
+        static extern Error_C Renderer_Start_C(UIntPtr obj);
 
         [DllImport("Graphics.dll")]
-        static extern Graphics_Error Renderer_UpdateSettings_C(UIntPtr obj, RendererInitializationInfo ii);
+        static extern Error_C Renderer_UpdateSettings_C(UIntPtr obj, RendererInitializationInfo ii);
         [DllImport("Graphics.dll")]
         static extern RendererInitializationInfo Renderer_GetSettings_C(UIntPtr obj);
         RendererInitializationInfo ii;
@@ -65,10 +58,11 @@ namespace Importer
             obj = CreateRenderer(0, ii);
 
         }
-        public void Init()
+        public Error Init()
         {
-            var r = Renderer_Initialize_C(obj);
-            if (r.errornr != 0)
+            return Renderer_Initialize_C(obj);
+
+            /*if (r.errornr != 0)
             {
                 String msg = Marshal.PtrToStringAnsi(r.errorMSG);
                 String file = Marshal.PtrToStringAnsi(r.file);
@@ -76,16 +70,16 @@ namespace Importer
                     + r.errornr.ToString() + ": " + msg + "\nFile: "
                     + file + "\nLine :" + r.line.ToString()
                     , "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            }*/
         }
 
-        public void UpdateSettings(System.Windows.Forms.Control window)
+        public Error UpdateSettings(System.Windows.Forms.Control window)
         {
             ii.windowHandle = window.Handle;
             ii.resolution = new Resolution { width = Convert.ToUInt32(window.Width), height = Convert.ToUInt32(window.Height) };
 
-            var r = Renderer_UpdateSettings_C(obj, ii);
-            if (r.errornr != 0)
+            return Renderer_UpdateSettings_C(obj, ii);
+           /* if (r.errornr != 0)
             {
                 String msg = Marshal.PtrToStringAnsi(r.errorMSG);
                 String file = Marshal.PtrToStringAnsi(r.file);
@@ -93,12 +87,12 @@ namespace Importer
                     + r.errornr.ToString() + ": " + msg + "\nFile: "
                     + file + "\nLine :" + r.line.ToString()
                     , "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            }*/
         }
-        public void Start()
+        public Error Start()
         {
-            var r = Renderer_Start_C(obj);
-            if (r.errornr != 0)
+            return Renderer_Start_C(obj);
+           /* if (r.errornr != 0)
             {
                 String msg = Marshal.PtrToStringAnsi(r.errorMSG);
                 String file = Marshal.PtrToStringAnsi(r.file);
@@ -106,7 +100,7 @@ namespace Importer
                     + r.errornr.ToString() + ": " + msg + "\nFile: "
                     + file + "\nLine :" + r.line.ToString()
                     , "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            }*/
         }
         public void Pause()
         {

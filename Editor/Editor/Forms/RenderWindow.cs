@@ -20,7 +20,16 @@ namespace Editor.Forms
             InitializeComponent();
             this.wrapper = wrapper;
             renderer = new Renderer(panel1);
-            renderer.Init();
+            retry:
+            var err = renderer.Init();
+            if(err.IsError())
+            {
+                var r = err.ShowError(MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, "Failed to init renderer");
+                if (r == DialogResult.Cancel)
+                    System.Environment.Exit(Convert.ToInt32(err.errornr));
+                else if (r == DialogResult.Retry)
+                    goto retry;
+            }
             if (Settings.Default.RenderWindowSize != null)
                 this.Size = Settings.Default.RenderWindowSize;
         }
@@ -39,9 +48,18 @@ namespace Editor.Forms
             {
                 rendering = true;
 
-                renderer.UpdateSettings(panel1);
-                renderer.Start();
-
+                var err = renderer.UpdateSettings(panel1);
+                if(err.IsError())
+                {
+                    err.ShowError(MessageBoxButtons.OK, MessageBoxIcon.Error, "Failed to update renderer settings");
+                    System.Environment.Exit(Convert.ToInt32(err.errornr));
+                }
+                err = renderer.Start();
+                if (err.IsError())
+                {
+                    err.ShowError(MessageBoxButtons.OK, MessageBoxIcon.Error, "Failed to start renderer");
+                    System.Environment.Exit(Convert.ToInt32(err.errornr));
+                }
             }
 
         }
@@ -53,8 +71,18 @@ namespace Editor.Forms
 
              
                 renderer.Pause();
-                renderer.UpdateSettings(panel1);
-                renderer.Start();
+                var err = renderer.UpdateSettings(panel1);
+                if (err.IsError())
+                {
+                    err.ShowError(MessageBoxButtons.OK, MessageBoxIcon.Error, "Failed to update renderer settings");
+                    System.Environment.Exit(Convert.ToInt32(err.errornr));
+                }
+                err = renderer.Start();
+                if (err.IsError())
+                {
+                    err.ShowError(MessageBoxButtons.OK, MessageBoxIcon.Error, "Failed to start renderer");
+                    System.Environment.Exit(Convert.ToInt32(err.errornr));
+                }
 
             }
         }

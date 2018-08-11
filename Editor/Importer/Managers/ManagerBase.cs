@@ -24,7 +24,7 @@ namespace Importer.Managers
         [DllImport("ECS.dll")]
         static extern void Manager_Base_GetRegisteredEntities_C(UIntPtr obj, IntPtr entities, UInt32 numEntities);
         [DllImport("ECS.dll")]
-        static extern File_Error_C Manager_Base_WriteComponent_C(UIntPtr obj, UIntPtr loader, Entity entity, String name, String type);
+        static extern Error_C Manager_Base_WriteComponent_C(UIntPtr obj, UIntPtr loader, Entity entity, String name, String type);
  
         public bool IsRegistered(Entity entity)
         {
@@ -53,7 +53,7 @@ namespace Importer.Managers
 
             return ents;
         }
-        public File_Error WriteComponent(Importer.BinaryLoader_Wrapper loader, Entity ent, String name)
+        public Error WriteComponent(Importer.BinaryLoader_Wrapper loader, Entity ent, String name)
         {
             return  Manager_Base_WriteComponent_C(obj, loader.GetLoader(), ent, name, "Scene");
         }

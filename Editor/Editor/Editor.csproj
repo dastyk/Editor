@@ -77,6 +77,12 @@
     <Compile Include="Forms\EntityFlowContainerObjects\TransformComponent.Designer.cs">
       <DependentUpon>TransformComponent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ResourceScriptWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ResourceScriptWindow.Designer.cs">
+      <DependentUpon>ResourceScriptWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ResourceHandlerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,6 +130,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EntityFlowContainerObjects\TransformComponent.resx">
       <DependentUpon>TransformComponent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ResourceScriptWindow.resx">
+      <DependentUpon>ResourceScriptWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ResourceHandlerWindow.resx">
       <DependentUpon>ResourceHandlerWindow.cs</DependentUpon>

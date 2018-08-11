@@ -54,6 +54,13 @@ namespace Editor
             resourceHandlerToolStripMenuItem.Checked = false;
             e.Cancel = true;
         }
+        void rScriptWClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.MdiFormClosing)
+                return;
+            rScriptW.Checked = false;
+            e.Cancel = true;
+        }
         public EditorMainWindow()
         {
             
@@ -79,12 +86,15 @@ namespace Editor
             wrapper.resourceHandlerWindow.MdiParent = this;
             wrapper.resourceHandlerWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(rhWindowClosing);
 
+            wrapper.resourceScriptWindow.MdiParent = this;
+            wrapper.resourceScriptWindow.FormClosing += new System.Windows.Forms.FormClosingEventHandler(rScriptWClosing);
+
             toolStripItem_FileReg.Checked = Settings.Default.FileRegVisible;
             toolStripItem_SceneView.Checked = Settings.Default.SceneViewVisible;
             toolStripItem_EntityView.Checked = Settings.Default.EntityViewVisible;
             renderWindowToolStripMenuItem.Checked = Settings.Default.RenderWindowVis;
             resourceHandlerToolStripMenuItem.Checked = Settings.Default.RHWVis;
-
+            rScriptW.Checked = Settings.Default.RScriptVis;
 
         }
         ~EditorMainWindow()
@@ -170,6 +180,14 @@ namespace Editor
         {
             Settings.Default.RHWVis = wrapper.resourceHandlerWindow.Visible = resourceHandlerToolStripMenuItem.Checked;
             wrapper.resourceHandlerWindow.Location = Settings.Default.RHWPos;
+        }
+
+
+
+        private void rScriptW_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.RScriptVis = wrapper.resourceScriptWindow.Visible = rScriptW.Checked;
+            wrapper.resourceScriptWindow.Location = Settings.Default.RScriptPos;
         }
     }
 }

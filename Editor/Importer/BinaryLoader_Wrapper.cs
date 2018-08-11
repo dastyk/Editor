@@ -20,44 +20,8 @@ namespace Importer
         public String guid_str { get; set; }
         public String type_str { get; set; }
     }
-    public class File_Error
-    {
-        public String errorMSG;
-        public UInt32 errornr;
-        public String file;
-        public UInt32 line;
-        public bool IsError()
-        {
-            return errornr < 0;
-        }
-        public DialogResult ShowError( MessageBoxButtons btns, MessageBoxIcon icon, String extra = "")
-        {
-            return MessageBox.Show("Error: "
-                      + errornr.ToString() + ": " + errorMSG + "\nFile: "
-                      + file + "\nLine :" + line.ToString() + "\n" + extra
-                      , "Error", btns, icon);
-        }
-    };
-    struct File_Error_C
-    {
-        public IntPtr errorMSG;
-        public UInt32 errornr;
-        public IntPtr file;
-        public UInt32 line;
-        public static implicit operator File_Error(File_Error_C o)  // implicit digit to byte conversion operator
-        {
-            var fe = new File_Error
-            {
-                errornr = o.errornr,
-                line = o.line
-            };
-            if (o.errorMSG != IntPtr.Zero)
-                fe.errorMSG = Marshal.PtrToStringAnsi(o.errorMSG);
-            if (o.file != IntPtr.Zero)
-                fe.file = Marshal.PtrToStringAnsi(o.file);
-            return fe;
-        }
-    };
+   
+  
     public class BinaryLoader_Wrapper
     {
        
@@ -66,21 +30,21 @@ namespace Importer
         [DllImport("ResourceHandler.dll")]
         static extern UIntPtr CreateFileSystem(uint type);
         [DllImport("ResourceHandler.dll")]
-        static extern File_Error_C InitLoader_C(UIntPtr loader, String filePath, int mode);
+        static extern Error_C InitLoader_C(UIntPtr loader, String filePath, int mode);
         [DllImport("ResourceHandler.dll")]
-        static extern File_Error_C DestroyLoader(UIntPtr loader);
+        static extern Error_C DestroyLoader(UIntPtr loader);
         [DllImport("ResourceHandler.dll")]
-        static extern File_Error_C CreateS_C(UIntPtr loader, String guid, String type, [In, MarshalAs(UnmanagedType.LPArray)] byte[] rdata, UInt64 size);
+        static extern Error_C CreateS_C(UIntPtr loader, String guid, String type, [In, MarshalAs(UnmanagedType.LPArray)] byte[] rdata, UInt64 size);
         [DllImport("ResourceHandler.dll")]
-        static extern File_Error_C CreateFromFile_C(UIntPtr loader, String path, String guid, String type);
+        static extern Error_C CreateFromFile_C(UIntPtr loader, String path, String guid, String type);
         [DllImport("ResourceHandler.dll")]
-        static extern File_Error_C ReadS_C(UIntPtr loader, String guid, String type, [In, MarshalAs(UnmanagedType.LPArray)] byte[] rdata, UInt64 size);
+        static extern Error_C ReadS_C(UIntPtr loader, String guid, String type, [In, MarshalAs(UnmanagedType.LPArray)] byte[] rdata, UInt64 size);
         [DllImport("ResourceHandler.dll")]
-        static extern File_Error_C Read_C(UIntPtr loader, UInt32 guid, UInt32 type, [In, MarshalAs(UnmanagedType.LPArray)] byte[] rdata, UInt64 size);
+        static extern Error_C Read_C(UIntPtr loader, UInt32 guid, UInt32 type, [In, MarshalAs(UnmanagedType.LPArray)] byte[] rdata, UInt64 size);
         [DllImport("ResourceHandler.dll")]
-        static extern File_Error_C Destroy_C(UIntPtr loader, UInt32 guid, UInt32 type);
+        static extern Error_C Destroy_C(UIntPtr loader, UInt32 guid, UInt32 type);
         [DllImport("ResourceHandler.dll")]
-        static extern File_Error_C DestroyS_C(UIntPtr loader, String guid, String type);
+        static extern Error_C DestroyS_C(UIntPtr loader, String guid, String type);
         [DllImport("ResourceHandler.dll")]
         static extern UInt32 GetNumberOfFiles_C(UIntPtr loader);
         [DllImport("ResourceHandler.dll")]
@@ -94,11 +58,11 @@ namespace Importer
         [DllImport("ResourceHandler.dll")]
         static extern bool ExistS_C(UIntPtr loader, String guid, String type);
         [DllImport("ResourceHandler.dll")]
-        static extern File_Error_C GetSizeOfFile_C(UIntPtr loader, UInt32 guid, UInt32 type, ref UInt64 size);
+        static extern Error_C GetSizeOfFile_C(UIntPtr loader, UInt32 guid, UInt32 type, ref UInt64 size);
         [DllImport("ResourceHandler.dll")]
-        static extern File_Error_C GetSizeOfFileS_C(UIntPtr loader, String guid, String type, ref UInt64 size);
+        static extern Error_C GetSizeOfFileS_C(UIntPtr loader, String guid, String type, ref UInt64 size);
         [DllImport("ResourceHandler.dll")]
-        static extern File_Error_C Defrag_C(UIntPtr loader);
+        static extern Error_C Defrag_C(UIntPtr loader);
 
         [StructLayout(LayoutKind.Sequential)]
         struct FILE_C
@@ -117,11 +81,11 @@ namespace Importer
            
         };
         [DllImport("ResourceHandler.dll")]
-        static extern File_Error_C GetFiles_C(UIntPtr loader, IntPtr files, UInt32 numfiles);
+        static extern Error_C GetFiles_C(UIntPtr loader, IntPtr files, UInt32 numfiles);
         [DllImport("ResourceHandler.dll")]
-        static extern File_Error_C GetFile_C(UIntPtr loader, ref FILE_C file, String name, String type);
+        static extern Error_C GetFile_C(UIntPtr loader, ref FILE_C file, String name, String type);
         [DllImport("ResourceHandler.dll")]
-        static extern File_Error_C GetFilesOfType_C(UIntPtr loader, String type, IntPtr files, UInt32 numfiles);
+        static extern Error_C GetFilesOfType_C(UIntPtr loader, String type, IntPtr files, UInt32 numfiles);
         [DllImport("ResourceHandler.dll")]
         static extern float GetFragmentationRatio_C(UIntPtr loader);
 
@@ -148,30 +112,30 @@ namespace Importer
         {
             return loader;
         }
-        public File_Error InitLoader(String filePath, LoaderMode mode)
+        public Error InitLoader(String filePath, LoaderMode mode)
         {
             return InitLoader_C(loader, filePath, (int)mode);
          
         }
-        public File_Error Shutdown()
+        public Error Shutdown()
         {
             var r = DestroyLoader(loader);
             loader = UIntPtr.Zero;
             return r;
         }
-        public File_Error Create(String guid, String type, byte[] data, UInt64 size)
+        public Error Create(String guid, String type, byte[] data, UInt64 size)
         {
             return CreateS_C(loader, guid, type, data, size);
         }
-        public File_Error CreateFromFile(String path, String guid, String type)
+        public Error CreateFromFile(String path, String guid, String type)
         {
             return CreateFromFile_C(loader, path, guid, type);
         }
-        public File_Error Destroy(UInt32 guid, UInt32 type)
+        public Error Destroy(UInt32 guid, UInt32 type)
         {
             return Destroy_C(loader, guid, type);
         }
-        public File_Error Destroy(String guid, String type)
+        public Error Destroy(String guid, String type)
         {
             return DestroyS_C(loader, guid, type);
         }
@@ -195,27 +159,27 @@ namespace Importer
         {
             return ExistS_C(loader, guid, type);
         }
-        public File_Error GetSizeOfFile(UInt32 guid, UInt32 type, ref UInt64 size)
+        public Error GetSizeOfFile(UInt32 guid, UInt32 type, ref UInt64 size)
         {
             return GetSizeOfFile_C(loader, guid, type, ref size);
         }
-        public File_Error GetSizeOfFile(String guid, String type, ref UInt64 size)
+        public Error GetSizeOfFile(String guid, String type, ref UInt64 size)
         {
             return GetSizeOfFileS_C(loader, guid, type, ref size);
         }
-        public File_Error Read(UInt32 guid, UInt32 type, byte[] data, UInt64 size)
+        public Error Read(UInt32 guid, UInt32 type, byte[] data, UInt64 size)
         {
             return Read_C(loader, guid, type, data, size);
         }
-        public File_Error Read(String guid, String type, byte[] data, UInt64 size)
+        public Error Read(String guid, String type, byte[] data, UInt64 size)
         {
             return ReadS_C(loader, guid, type, data, size);
         }
-        public File_Error Defrag()
+        public Error Defrag()
         {
             return Defrag_C(loader);
         }
-        public File_Error GetFiles(out List<LoaderFile> file_list)
+        public Error GetFiles(out List<LoaderFile> file_list)
         {
             var numFiles = GetNumberOfFiles();
             FILE_C[] files = new FILE_C[numFiles];
@@ -235,7 +199,7 @@ namespace Importer
             }
             return result;
         }
-        public File_Error GetFile(out LoaderFile file, String name, String type)
+        public Error GetFile(out LoaderFile file, String name, String type)
         {
             FILE_C cFile = new FILE_C();
             var r = GetFile_C(loader, ref cFile, name, type);
@@ -259,7 +223,7 @@ namespace Importer
             return GetNumberOfFilesOfType_C(loader, type);
         }
 
-        public File_Error GetFilesOfType(String type, out List<LoaderFile> file_list)
+        public Error GetFilesOfType(String type, out List<LoaderFile> file_list)
         {
             var numFiles = GetNumberOfFilesOfType(type);
             FILE_C[] files = new FILE_C[numFiles];

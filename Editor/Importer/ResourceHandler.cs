@@ -25,7 +25,7 @@ namespace Importer
         [DllImport("ResourceHandler.dll")]
         static extern UIntPtr DestroyResourceHandler(UIntPtr rh);
         [DllImport("ResourceHandler.dll")]
-        static extern File_Error_C ResourceHandler_CreateType(UIntPtr rh, String type, MemoryType memoryType, String passthrough);
+        static extern Error_C ResourceHandler_CreateType(UIntPtr rh, String type, MemoryType memoryType, String passthrough);
 
         public ResourceHandler(BinaryLoader_Wrapper l)
         {
@@ -40,7 +40,7 @@ namespace Importer
             threadPool = CreateThreadPool(4);
             obj = CreateResourceHandler(loader.GetLoader(), threadPool);
         }
-        public File_Error CreateType(String type, MemoryType memoryType, String passtrough)
+        public Error CreateType(String type, MemoryType memoryType, String passtrough)
         {
             return ResourceHandler_CreateType(obj, type, memoryType, passtrough);
         }

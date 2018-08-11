@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinaryLoader_Wrapper.cs" />
+    <Compile Include="Error.cs" />
     <Compile Include="Managers\Collection.cs" />
     <Compile Include="Managers\EntityManager.cs" />
     <Compile Include="Managers\ManagerBase.cs" />

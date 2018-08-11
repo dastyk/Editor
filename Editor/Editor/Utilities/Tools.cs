@@ -25,6 +25,7 @@ namespace Editor.Utilities
         public EntityViewWindow entityViewWindow;
         public Forms.RenderWindow renderWindow;
         public ResourceHandlerWindow resourceHandlerWindow;
+        public ResourceScriptWindow resourceScriptWindow;
         public ResourceHandler resourceHandler;
         public Collection managers = new Collection();
         public event EditorChangeEventHandler ChangeEvent;
@@ -53,6 +54,8 @@ namespace Editor.Utilities
             sceneViewWindow = new SceneViewWindow(this);
 
             resourceHandlerWindow = new ResourceHandlerWindow(this);
+
+            resourceScriptWindow = new ResourceScriptWindow(this);
 
             SavedEvent();
         }
